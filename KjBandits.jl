@@ -351,9 +351,10 @@ struct Haver  <: ValueEstimator
     σ²::Float64
     delta::Float64
     function Haver(σ²,delta=0.95)
-        new(σ²,delta)
+        new(σ², delta)
     end
 end
+
 function estimate_value(self::Haver, avgs::Vector{T}, n_pulls::Vector{Int}) where {T <: Real} 
     K = length(avgs)
     emp_max = maximum(avgs)
