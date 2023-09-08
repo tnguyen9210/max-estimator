@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from tqdm import tqdm 
+import time
 
 # import gymnasium as gym
 import gym
@@ -15,6 +16,7 @@ from algos import *
 # from gridworld import GridworldEnv
 
 def main():
+    start_time = time.time()
     random.seed(123)
     np.random.seed(123)
     
@@ -48,8 +50,8 @@ def main():
     Q_table = defaultdict(lambda: np.zeros(num_actions))
     Q_nvisits = defaultdict(lambda: np.zeros(num_actions))
     
-    env_wrapped.reset(seed=1)
-    Q_table, stats = double_q_learning(
+    env_wrapped.reset(seed=2)
+    Q_table, stats = q_learning(	
         env_wrapped, Q_table, Q_nvisits, num_episodes_train, max_steps,
         gamma, lr_fn, eps_decay_fn)
 
@@ -60,6 +62,9 @@ def main():
     print(f"last_episode_length = {episode_lengths[-1]}")
     print(f"last_episode_reward_per_step = {episode_rewards[-1]:.4f}")
     print(f"last_episode_estim_start_val = {episode_start_vals[-1]:.4f}")
+
+    end_time = time.time()
+    print(f"it takes {end_time - start_time}")
 
     fig, axes = fig, axes = plt.subplots(
         nrows=3, ncols=1, sharex=True, sharey=False, figsize=(10,5))
@@ -77,16 +82,16 @@ def main():
     axes[2].legend()
     plt.show()
     
-    # evaluate
-    episode_reward_ary = evaluate(env_wrapped, Q_table, num_episodes_eval, max_steps)
-    reward_mean = np.mean(episode_reward_ary)
-    reward_std = np.std(episode_reward_ary)
-    print(f"reward = {reward_mean:.2f} +/- {reward_std:.2f}")
+    # # evaluate
+    # episode_reward_ary = evaluate(env_wrapped, Q_table, num_episodes_eval, max_steps)
+    # reward_mean = np.mean(episode_reward_ary)
+    # reward_std = np.std(episode_reward_ary)
+    # print(f"reward = {reward_mean:.2f} +/- {reward_std:.2f}")
 
-    env = gym.make(
-        'gym_examples/GridWorld-v1', size=gridworld_size, render_mode="human")
-    env_wrapped = FlattenObservation(env)
-    episode_reward_ary = evaluate(env_wrapped, Q_table, 3, 20)
+    # env = gym.make(
+    #     'gym_examples/GridWorld-v1', size=gridworld_size, render_mode="human")
+    # env_wrapped = FlattenObservation(env)
+    # episode_reward_ary = evaluate(env_wrapped, Q_table, 3, 20)
 
 if __name__ == '__main__':
     main()
