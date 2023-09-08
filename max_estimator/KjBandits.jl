@@ -1,13 +1,15 @@
+
 using Infiltrator
 using Random
 using Statistics
 using Printf
-# include("KjUtils.jl")
+
+include("./KjUtils.jl")
 # using .KjUtils
 
-sumsqueeze(A, dims) = dropdims(sum(A, dims=dims); dims=dims)
-meansqueeze(A, dims) = dropdims(mean(A, dims=dims); dims=dims)
-stdsqueeze(A, dims) = dropdims(std(A, dims=dims); dims=dims)
+# sumsqueeze(A, dims) = dropdims(sum(A, dims=dims); dims=dims)
+# meansqueeze(A, dims) = dropdims(mean(A, dims=dims); dims=dims)
+# stdsqueeze(A, dims) = dropdims(std(A, dims=dims); dims=dims)
 
 ################################################################################
 # bandit problems
@@ -293,6 +295,7 @@ struct Double       <: ValueEstimator
         new(seed, rng)
     end
 end
+
 function estimate_value(self::Double, data)
     n = size(data)[2]
     n1 = convert(Int, floor(n/2))
@@ -301,10 +304,12 @@ function estimate_value(self::Double, data)
     avg2 = meansqueeze(data[:,n1+1:end], 2)
 
     # TODO need to break ties
-    i1 = argmax(avg1)
+    # i1 = argmax(avg1)
+    i1 = argmax_breaktie(self.rng, avg1)
     me1 = avg2[i1]
-    i2 = argmax(avg2)
-    me2 = avg1[i2]
+    # i2 = argmax(avg2)
+    i2 = argmax_breaktie(self.rng, avg2)
+    me2 = avg1[i2] 
 
     (me1 + me2) / 2
 end
