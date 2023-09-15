@@ -79,7 +79,7 @@ def haver_estimator(action_rewards, num_actions, num_samples, args=None):
     haver_const = args["haver_const"]
     haver_delta = args["haver_delta"]
     action_muhats = np.mean(action_rewards, axis=0)
-    action_sigmahats = np.std(action_rewards, axis=0, ddof=1) / np.sqrt(num_samples)
+    action_sigmahats = np.std(action_rewards, axis=0, ddof=1) 
     action_sigmahats[action_sigmahats < 1e-4] = 1e-4
 
     action_max_idx = np.argmax(action_muhats)
