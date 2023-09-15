@@ -1,27 +1,6 @@
 
 import numpy as np
-import numpy.matlib as matlib
 
-
-def create_reward_fn(reward_dist):
-    if reward_dist == "bernoulli":
-        reward_fn = reward_bernoulli
-    elif reward_dist == "normal":
-        reward_fn = reward_normal
-    
-    return reward_fn
-
-
-def reward_bernoulli(mus, sigmas, num_actions, num_samples):
-    rewards = np.random.binomial(1, mus, (num_samples, num_actions))
-    return rewards
-
-
-def reward_normal(mus, sigmas, num_actions, num_samples):
-    rewards = np.random.normal(mus, sigmas, size=(num_samples, num_actions))
-    return rewards
-
-        
 def max_estimator(action_rewards, num_actions, num_samples, args=None):
     action_muhats = np.mean(action_rewards, axis=0)
     mu_est = np.max(action_muhats)
@@ -76,10 +55,11 @@ def weightedms_estimator(action_rewards, num_actions, num_samples, args=None):
     return mu_est
 
 def haver_estimator(action_rewards, num_actions, num_samples, args=None):
-    haver_const = args["haver_const"]
+    haver_alpha = args["haver_alpha"]
     haver_delta = args["haver_delta"]
+    haver_const = args["haver_const"]
     action_muhats = np.mean(action_rewards, axis=0)
-    action_sigmahats = np.std(action_rewards, axis=0, ddof=1) 
+    action_sigmahats = np.std(action_rewards, axis=0, ddof=1) / np.sqrt(num_samples)
     action_sigmahats[action_sigmahats < 1e-4] = 1e-4
 
     action_max_idx = np.argmax(action_muhats)
@@ -89,8 +69,8 @@ def haver_estimator(action_rewards, num_actions, num_samples, args=None):
     mu_est_sum = 0
     mu_est_cnt = 0
     for i in range(num_actions):
-        avg = action_max_sigmahat**2/num_samples + action_sigmahats[i]**2/num_samples
-        thres = haver_const*np.sqrt((avg*np.log(num_actions**2/haver_delta)))
+        avg = action_max_sigmahat**2 + action_sigmahats[i]**2
+        thres = haver_const*np.sqrt(avg*np.log(num_actions**haver_alpha/haver_delta))
         if action_max_muhat - action_muhats[i] <= thres:
             mu_est_sum += action_muhats[i]
             mu_est_cnt += 1

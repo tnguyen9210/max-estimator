@@ -1,6 +1,7 @@
 
 # TODOs
-import re
+# 1. create proper eps_sched_fn, we are using fixed 1.0/np.sqrt(nvisits) for now
+
 import numpy as np
 import numpy.matlib as matlib
 
@@ -8,26 +9,12 @@ import copy
 from tqdm import tqdm
 from collections import defaultdict
 
-
-def convert_tables(Q_table, Q_nvisits, num_actions, grid_size):
-    Q_table_ary = np.zeros((grid_size, grid_size, num_actions))
-    Q_nvisits_ary = np.zeros((grid_size, grid_size, num_actions))
-    # Q_nvisits_ary = np.zeros((grid_size, grid_size))
-    for state, action_muhats in Q_table.items():
-        elems = re.findall(r'\d+', state)
-        pos0 = int(elems[0])
-        pos1 = int(elems[1])
-        # action_max_idx = np.argmax(action_muhats)
-        # V_table_ary[pos0, pos1] = action_muhats[action_max_idx]
-        # V_nvisits_ary[pos0, pos1] = Q_nvisits[state][action_max_idx]
-        Q_table_ary[pos0, pos1, :] = action_muhats
-        Q_nvisits_ary[pos0, pos1, :] = Q_nvisits[state] 
-
-    return Q_table_ary, Q_nvisits_ary
-
+    
 def create_eps_sched_fn(sched_type, min_eps=None, max_eps=None, decay_rate=None):
     if sched_type == "poly":
         def eps_sched_fn(nvisits):
+            print("yes", nvisits)
+            stop
             return 1.0/np.sqrt(nvisits)
     elif sched_type == "exp":
         def eps_sched_fn(i_eps):
@@ -93,6 +80,7 @@ def evaluate(env, Q_table, num_episodes_eval, max_steps, seed_ary=None):
 
     return episode_reward_ary    
 
+
 def q_learning(env, num_actions, num_steps_train,
                gamma, lr_sched_fn, eps_sched_fn, tdqm_disable, args=None):
         
@@ -112,8 +100,7 @@ def q_learning(env, num_actions, num_steps_train,
         # print(f"state = {state}")
         # choose the action a_t using epsilon greedy policy
         nvisits = np.sum(Q_nvisits[cur_state]) + 1
-        # eps = 1.0/np.sqrt(nvisits)
-        eps = eps_sched_fn(nvisits)
+        eps = 1.0/np.sqrt(nvisits)
         action = eps_greedy_policy(Q_table[cur_state], eps)
 
         new_state, reward, terminated, truncated, info = env.step(action)
@@ -141,16 +128,10 @@ def q_learning(env, num_actions, num_steps_train,
             cur_state = new_state
             
         # stats.append((i_step + 1, episode_reward/(i_step+1), np.max(Q_table[start_state])))
-        stats.append((np.sum(Q_nvisits[start_state]),
-                      reward, np.max(Q_table[start_state])))
+        stats.append((i_step, reward, np.max(Q_table[start_state])))
 
-    Q_table_ary, Q_nvisits_ary = \
-        convert_tables(Q_table, Q_nvisits, num_actions, env.size)
+    return Q_table, stats
 
-    return Q_table_ary, Q_nvisits_ary, stats
-
-
-    
 def avg_q_learning(env, Q_table, Q_nvisits, num_steps_train,
                    gamma, lr_sched_fn, eps_sched_fn, tdqm_disable, args=None):
         
@@ -167,8 +148,7 @@ def avg_q_learning(env, Q_table, Q_nvisits, num_steps_train,
         for i_step in range(max_steps):
             # choose the action a_t using epsilon greedy policy
             nvisits = np.sum(Q_nvisits[state]) + 1
-            # eps = 1.0/np.sqrt(nvisits)
-            eps = eps_sched_fn(nvisits)
+            eps = 1.0/np.sqrt(nvisits)
             action = eps_greedy_policy(Q_table[state], eps)
 
             new_state, reward, terminated, truncated, info = env.step(action)
@@ -183,18 +163,15 @@ def avg_q_learning(env, Q_table, Q_nvisits, num_steps_train,
             lr = lr_sched_fn(Q_nvisits[state][action]) 
             Q_table[state][action] += lr*td_error
             
+
             if terminated or truncated:
                 break
 
             state = new_state
 
-        stats.append((np.sum(Q_nvisits[start_state]),
-                      reward, np.max(Q_table[start_state])))
+        stats.append((i_step + 1, episode_reward/(i_step+1), np.max(Q_table[start_state])))
 
-    Q_table_ary, Q_nvisits_ary = \
-        convert_tables(Q_table, Q_nvisits, num_actions, env.size)
-
-    return Q_table_ary, Q_nvisits_ary, stats
+    return Q_table, stats 
 
 
 def double_q_learning(env, num_actions, num_steps_train,
@@ -218,8 +195,7 @@ def double_q_learning(env, num_actions, num_steps_train,
         # print(f"cur_state = {cur_state}")
         # choose the action a_t using epsilon greedy policy
         nvisits = np.sum(Q_nvisits[cur_state]) + 1
-        # eps = 1.0/np.sqrt(nvisits)
-        eps = eps_sched_fn(nvisits)
+        eps = 1.0/np.sqrt(nvisits)
         action = eps_greedy_policy(Q_table[cur_state], eps)
 
         new_state, reward, terminated, truncated, info = env.step(action)
@@ -253,13 +229,9 @@ def double_q_learning(env, num_actions, num_steps_train,
             cur_state = new_state
             
         # stats.append((i_step + 1, episode_reward/(i_step+1), np.max(Q_table[start_state])))
-        stats.append((np.sum(Q_nvisits[start_state]),
-                      reward, np.max(Q_table[start_state])))
+        stats.append((i_step, reward, np.max(Q_table[start_state])))
 
-    Q_table_ary, Q_nvisits_ary = \
-        convert_tables(Q_table, Q_nvisits, num_actions, env.size)
-
-    return Q_table_ary, Q_nvisits_ary, stats
+    return Q_table, stats
 
 
 def weightedms_q_learning(
@@ -286,8 +258,7 @@ def weightedms_q_learning(
             range(num_steps_train), desc="train q_learning", disable=tdqm_disable):
         
         nvisits = np.sum(Q_nvisits[cur_state]) + 1
-        # eps = 1.0/np.sqrt(nvisits)
-        eps = eps_sched_fn(nvisits)
+        eps = 1.0/np.sqrt(nvisits)
         action = eps_greedy_policy(Q_table[cur_state], eps)
 
         new_state, reward, terminated, truncated, info = env.step(action)
@@ -346,13 +317,10 @@ def weightedms_q_learning(
             cur_state = new_state
 
         # stats.append((i_step + 1, episode_reward/(i_step+1), np.max(Q_table[start_state])))
-        stats.append((np.sum(Q_nvisits[start_state]),
+        stats.append((Q_sigmahats[start_state][np.argmax(Q_table[start_state])],
                       reward, np.max(Q_table[start_state])))
-
-    Q_table_ary, Q_nvisits_ary = \
-        convert_tables(Q_table, Q_nvisits, num_actions, env.size)
-
-    return Q_table_ary, Q_nvisits_ary, stats
+        
+    return Q_table, stats 
 
 
 def haver_q_learning(env, num_actions, num_steps_train,
@@ -379,8 +347,7 @@ def haver_q_learning(env, num_actions, num_steps_train,
         # print(f"state = {state}")
         # choose the action a_t using epsilon greedy policy
         nvisits = np.sum(Q_nvisits[cur_state]) + 1
-        # eps = 1.0/np.sqrt(nvisits)
-        eps = eps_sched_fn(nvisits)
+        eps = 1.0/np.sqrt(nvisits)
         action = eps_greedy_policy(Q_table[cur_state], eps)
 
         new_state, reward, terminated, truncated, info = env.step(action)
@@ -413,13 +380,9 @@ def haver_q_learning(env, num_actions, num_steps_train,
             cur_state = new_state
             
         # stats.append((i_step + 1, episode_reward/(i_step+1), np.max(Q_table[start_state])))
-        stats.append((np.sum(Q_nvisits[start_state]),
-                      reward, np.max(Q_table[start_state])))
+        stats.append((i_step, reward, np.max(Q_table[start_state])))
 
-    Q_table_ary, Q_nvisits_ary = \
-        convert_tables(Q_table, Q_nvisits, num_actions, env.size)
-
-    return Q_table_ary, Q_nvisits_ary, stats
+    return Q_table, stats
 
 
 def haver(action_means, nvisits, num_actions,
@@ -451,7 +414,6 @@ def haver2_q_learning(env, num_actions, num_steps_train,
 
     # get params
     # action_sigma = args["action_sigma"]
-    haver_alpha = args["haver_alpha"]
     haver_delta = args["haver_delta"]
     haver_const = args["haver_const"]
     
@@ -475,8 +437,7 @@ def haver2_q_learning(env, num_actions, num_steps_train,
         # print(f"state = {state}")
         # choose the action a_t using epsilon greedy policy
         nvisits = np.sum(Q_nvisits[cur_state]) + 1
-        # eps = 1.0/np.sqrt(nvisits)
-        eps = eps_sched_fn(nvisits)
+        eps = 1.0/np.sqrt(nvisits)
         action = eps_greedy_policy(Q_table[cur_state], eps)
 
         new_state, reward, terminated, truncated, info = env.step(action)
@@ -492,7 +453,7 @@ def haver2_q_learning(env, num_actions, num_steps_train,
             cur_nvisits  = Q_nvisits[new_state]
             Q_est = haver2(
                 cur_muhats, cur_sigmahats, cur_nvisits, num_actions,
-                haver_alpha, haver_delta, haver_const, lr_sched_fn)
+                haver_delta, haver_const, lr_sched_fn)
             
             # td_error = reward + gamma*Q_est - Q_table[cur_state][action]
             td_target = reward + gamma*Q_est
@@ -526,17 +487,14 @@ def haver2_q_learning(env, num_actions, num_steps_train,
             cur_state = new_state
             
         # stats.append((i_step + 1, episode_reward/(i_step+1), np.max(Q_table[start_state])))
-        stats.append((np.sum(Q_nvisits[start_state]),
+        stats.append((Q_sigmahats[start_state][np.argmax(Q_table[start_state])],
                       reward, np.max(Q_table[start_state])))
 
-    Q_table_ary, Q_nvisits_ary = \
-        convert_tables(Q_table, Q_nvisits, num_actions, env.size)
-
-    return Q_table_ary, Q_nvisits_ary, stats
+    return Q_table, stats
 
 
 def haver2(action_muhats, action_sigmahats, nvisits, num_actions,
-           haver_alpha, haver_delta, haver_const, lr_sched_fn):
+           haver_delta, haver_const, lr_sched_fn):
     
     action_muhats[action_muhats == 0] = -np.inf
     action_max_idx = np.argmax(action_muhats)
@@ -544,19 +502,20 @@ def haver2(action_muhats, action_sigmahats, nvisits, num_actions,
     action_max_sigmahat = action_sigmahats[action_max_idx]
     action_max_nvisits = nvisits[action_max_idx]
 
-    mu_est_sum = 0
-    mu_est_cnt = 0
+    est_sum = 0
+    est_cnt = 0
     for i in range(num_actions):
         if nvisits[i] != 0:
-            avg = action_max_sigmahat**2+ action_sigmahats[i]**2
-            thres = haver_const*np.sqrt(avg*np.log(num_actions**haver_alpha/haver_delta))
+            avg = (action_max_sigmahat**2*lr_sched_fn(action_max_nvisits) \
+                   + action_sigmahats[i]*lr_sched_fn(nvisits[i]))
+            thres = haver_const*np.sqrt(avg*np.log(num_actions**2/haver_delta))
             if action_max_muhat - action_muhats[i] <= thres:
-                mu_est_sum += action_muhats[i]
-                mu_est_cnt += 1
+                est_sum += action_muhats[i]
+                est_cnt += 1
             
-    mu_est = mu_est_sum/mu_est_cnt if mu_est_cnt != 0 else 0.0
+    est = est_sum/est_cnt if est_cnt != 0 else 0.0
     # print(f"est = {est}")
-    return mu_est
+    return est
 
 
 
