@@ -49,7 +49,8 @@ class BanditProblem:
     def get_action_rewards(self, action_idx, num_samples):
         return self.reward_fn(
             self.action_mus[action_idx], self.action_sigmas[action_idx],
-            1, num_samples)[0,0]
+            1, num_samples)
+            
         
 def create_reward_fn(reward_dist):
     if reward_dist == "bernoulli":

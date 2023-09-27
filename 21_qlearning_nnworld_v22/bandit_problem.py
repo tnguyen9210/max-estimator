@@ -3,13 +3,13 @@ import numpy as np
 
 class BanditProblem:
     def __init__(self, problem_instance, reward_dist, num_actions,
-                 action_mus=None, action_sigmas=None,
+                 action_max_mu, action_mus=None, action_sigmas=None,
                  **args):
         
         self.num_actions = num_actions
         
         if problem_instance == "all_best":
-            action_mus = np.zeros(num_actions)
+            action_mus = action_max_mu*np.ones(num_actions)
         elif problem_instance == "multi_gap_nonlinear":
             # adjust gap_splits into correct format
             gap_deltas = args["gap_deltas"]
@@ -26,7 +26,7 @@ class BanditProblem:
             if gap_splits[-1] != num_actions:
                 gap_splits.append(num_actions)
                     
-            action_mus = np.zeros(num_actions)
+            action_mus = action_max_mu*np.ones(num_actions)
             num_splits = len(gap_splits)
             for i_gap in range(1, num_splits):
                 lower_idx = gap_splits[i_gap-1]
@@ -42,14 +42,14 @@ class BanditProblem:
             
         self.reward_fn = create_reward_fn(reward_dist)
             
-    def get_rewards(self, num_samples):
+    def get_sample_rewards(self, num_samples):
         return self.reward_fn(
             self.action_mus, self.action_sigmas, self.num_actions, num_samples)
-    
-    def get_action_rewards(self, action_idx, num_samples):
+
+    def get_a_reward(self, action_idx):
         return self.reward_fn(
-            self.action_mus[action_idx], self.action_sigmas[action_idx],
-            1, num_samples)[0,0]
+            self.action_mus[action_idx], self.action_sigmas[action_idx], 1, 1)[0,0]
+            
         
 def create_reward_fn(reward_dist):
     if reward_dist == "bernoulli":
