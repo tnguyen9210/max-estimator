@@ -1,0 +1,51 @@
+
+\newpage
+\subsection*{Problem 5. Project check-in}
+
+Assume the activation $\acti(z)$ is $\rho$-Lipschitz. We will find the Lipschitz constants for both ReLU activation and sigmoid activation later.
+
+We will iteratively build neural network from 1-layer, 2-layer, upto n-layer network with the $\rho$-Lipschitz activation $\acti(z)$ as follows
+
+Denote the class of 1-layer network before activation
+\begin{align*}
+  \Gcal_1 = \left\{ g_{W_1}(x) : W_1 \in R_{+}^{N_1 \times N_0},\, \forall j,\, \norm{W_1^j}_1 = B_1 \right\}
+\end{align*}
+where $g_{W_1}(x) = W_1x_t$.
+
+Denote the class of first-layer network after activation
+\begin{align*}
+  \Fcal_1 = \left\{ \acti(g_{W_1}(x)) : \forall g_{W_1} \in G_1 \right\}
+\end{align*}
+
+Denote the class of 2-layer before activation
+\begin{align*}
+  \Gcal_2 = \left\{ g_{W_2}(f_{W_1}(x)) : f_{W_1} \in \Fcal_1,\, W_2 \in R_{+}^{N_2 \times N_1},\, \forall j,\, \norm{W_2^j}_1 = B_2 \right\}
+\end{align*}
+where $g_{W_2}(f_{W_1}(x)) = W_2f_{W_1}(x)$
+
+Denote the class of 2-layer network after activation
+\begin{align*}
+  \Fcal_2 = \left\{ \acti(g_{W_2}(x)) : \forall g_{W_2} \in G_2 \right\}
+\end{align*}
+
+Generally, denote the class of i-layer before activation
+\begin{align*}
+  \Gcal_i = \left\{ g_{W_i}(f_{W_{i-1}}(x)) : f_{W_{i-1}} \in \Fcal_{i-1},\, W_i \in R_{+}^{N_{i} \times N_{i-1}},\, \forall j,\, \norm{W_{i}^j}_1 = B_i \right\}
+\end{align*}
+where $g_{W_i}(f_{W_{i-1}}(x)) = W_if_{W_{i-1}}(x)$
+
+Denote the class of i-layer network after activation
+\begin{align*}
+  \Fcal_i = \left\{ \acti(g_{W_i}(x)) : \forall g_{W_i} \in G_i \right\}
+\end{align*}
+
+\textbf{Claim 3.1.}: Given the neural network, $\radhat_S(\Fcal_i) \le \rho \radhat_S(\Gcal_i)$
+
+\textit{Proof}:
+
+Apply the Talagrand's contraction lemma with class $\Fcal_i$ and $\Gcal_i$, $\Fcal_i = \left\{ \acti \circ g_{W_i} : \forall g_{W_i} \in G_i \right\}$, and $\acti(z)$ is $\rho$-Lipschitz, we have
+\begin{align*}
+  \radhat_S(\Fcal_i) \le \rho \radhat_S(\Gcal_i)
+\end{align*}
+
+\textbf{Claim 3.2.}: Given the neural network, $\radhat_S(\Gcal_i) \le \rho \radhat_S(\Fcal_{i-1})$

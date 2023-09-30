@@ -1,0 +1,49 @@
+
+\newpage
+\subsection*{Problem 4.}
+
+\subsubsection*{Problem 4.a.}
+
+Setting: Given a training sample $S = \{(x_t,y_t)\}_{t=1}^T$. We run the OGD algorithm with $f_t(w) = l(w, (x_t,y_t))$ where $(x_t,y_t)$ is the $t$-th training example, with logistic loss $l(w, (x_t,y_t)) = \ln(1 + \exp(-y\langle w,x \rangle))$. The OGD returns the averaged weight $\what = \frac{1}{T}\sum_{t=1}^T w_t$.
+
+From the theorem of Online-to-Batch (O2B) expectation bound version (from lecture 17), we have
+\begin{align*}
+  \EE\left[L_D(\what)\right] - L_D(w^*) \le \frac{1}{T} \EE\left[ R_T(w^*) \right]
+\end{align*}
+where $w^* = \argmin_{w' \in \omega} L_D(w')$
+
+From the theorem of OGD guarantees (from lecture 17), $forall u \in \omega$ the regret $R_T(u)$ is bounded by
+\begin{align*}
+  R_T(u) \le \frac{\norm{u - w_1}_2^2}{2\eta} + \frac{\eta}{2} \sum_{t=1}^T \norm{g_t}_2^2
+\end{align*}
+
+From the problem description $\norm{u - w_1}_2^2 = \norm{u}_2^2 \le 20^2$.
+
+$f_t(w)$ is differentiable on the domain, hence $g_t = \nabla f_t(w) = \frac{-yx}{1 + \exp(y \langle w,x \rangle)}$. Therefore,
+\begin{align*}
+  &\norm{g_t}_2^2 \\
+  =\,&\norm{\frac{-yx}{1 + \exp(y \langle w,x \rangle)}}_2^2 \\
+  =\,&\sum_{i=1}^d\left(\frac{-y_ix_i}{1 + \exp(y \langle w,x \rangle)}\right)^2 \\
+  \le\,&\sum_{i=1}^d\left(-yx_i\right)^2 && \mcmt{$\frac{1}{1 + \exp(y \langle w,x \rangle)} \le 1$}\\
+  =\,&\sum_{i=1}^d(-y)^2(x_i)^2 \\
+  \le\,&\sum_{i=1}^d(x_i)^2 && \mcmt{$y \in \{-1,1\}$}\\
+  \le\,&\sum_{i=1}^d1 && \mcmt{$x_i \in [-1,1]$}\\
+  =\,&d \\
+\end{align*}
+
+Plugin in the regret bound, we have
+\begin{align*}
+  R_T(u)
+  &\le \frac{20^2}{2\eta} + \frac{\eta}{2} Td \\
+  &\le \max_{\eta} \frac{20^2}{2\eta} + \frac{\eta}{2} Td
+\end{align*}
+
+The $h(\eta) = \frac{20^2}{2\eta} + \frac{\eta}{2} Td$ is optimal at $2\sqrt{\frac{20^2}{2}\frac{Td}{2}} = 20\sqrt{Td}$ when $\eta = \sqrt{\frac{20^2}{Td}} = \frac{20}{\sqrt{Td}}$
+
+Therefore, we get the regret bound $R_T(u) \le 20\sqrt{Td}$ by setting $\eta = \frac{20}{\sqrt{Td}}$.
+
+To conclude,
+\begin{align*}
+  \EE\left[L_D(\what)\right] - L_D(w^*) \le \frac{1}{T} \EE\left[ R_T(w^*) \right] \le \frac{20\sqrt{d}}{T}
+\end{align*}
+and we would choose constant step size of $\eta = \frac{20}{\sqrt{Td}}$.

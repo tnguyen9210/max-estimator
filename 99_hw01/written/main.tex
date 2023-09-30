@@ -1,0 +1,45 @@
+
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm,amsmath,amsfonts,amssymb}
+% \usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{multirow}
+\usepackage{lastpage}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{accents}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{makecell}
+
+\pagestyle{fancy}
+\setlength{\headheight}{40pt}
+
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+
+\input{math_macros}
+\input{defs-kjun-v5-shared}
+
+\setlength{\columnsep}{2.5em}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+\setlist[itemize]{noitemsep, topsep=0ex}
+
+\begin{document}
+
+% \lhead{Tuan Nguyen} 
+% \rhead{CSC 580: Principles of Machine Learning \\ Homework 3} 
+\cfoot{\thepage\ of \pageref{LastPage}}
+
+\input{problem1}
+% \input{problem2}   
+% \input{problem3}
+% \input{problem4}
+% \input{problem5}
+% \input{old.tex}
+
+\end{document}

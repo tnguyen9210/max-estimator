@@ -1,0 +1,59 @@
+
+
+\newpage
+\subsection*{Problem 3.}
+
+\subsubsection*{Problem 3.a.}
+
+By definition, we have
+\begin{align*}
+  Q =  (1-2\eps)\begin{pmatrix}
+    1 & -\tau \\
+    -\tau & \tau^2
+  \end{pmatrix}
+            + \eps \begin{pmatrix}
+              1 & \tau \\
+              \tau & \tau^2
+            \end{pmatrix}
+                     + \eps \begin{pmatrix}
+                       0 & 0 \\
+                       0 & 1
+                     \end{pmatrix}
+\end{align*}
+
+We set $\eps = \tau^2$, then
+\begin{align*}
+  Q &=  (1-2\tau^2)\begin{pmatrix}
+    1 & -\tau \\
+    -\tau & \tau^2
+  \end{pmatrix}
+            + \tau^2 \begin{pmatrix}
+              1 & \tau \\
+              \tau & \tau^2
+            \end{pmatrix}
+                     + \tau^2 \begin{pmatrix}
+                       0 & 0 \\
+                       0 & 1
+                     \end{pmatrix} \\
+    &= \begin{pmatrix}
+      1-\tau^2 & 3\tau^3 - r \\
+      3\tau^3 - r & -\tau^4 + 2\tau^2
+    \end{pmatrix}
+\end{align*}
+
+Use wolfram alpha to find the $\Qinv$, we have
+\begin{align*}
+  \Qinv = \frac{1}{8r^4 - 3r^2 -1} \begin{pmatrix}
+    \tau^2(\tau^2 - 2) & r(3\tau^3 - 1) \\
+    r(3\tau^3 - 1) & \tau^2 -  1
+  \end{pmatrix}
+\end{align*}
+
+\subsubsection*{Problem 3.b.}
+
+From $\Qinv$, we have $(\Qinv)_{11} = \frac{\tau^2(\tau^2 -2)}{8r^4 - 3r^2 -1} $
+
+We have
+\begin{align*}
+  R_1 = 
+\end{align*}

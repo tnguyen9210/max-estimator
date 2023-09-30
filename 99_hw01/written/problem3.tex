@@ -1,0 +1,118 @@
+
+\newpage
+\subsection*{Problem 3.}
+
+We denote any activation function to be $\acti(\cdot)$ to differentiate from the random Rademacher random variables $\{\eps_t\}_{t=1}^m$
+
+\textbf{Claim 3.1.}: The ReLU activation function $\acti(z) = \max\{z,0\}$ is $1$-Lipschitz.
+
+\textit{Proof}:
+
+Since $\acti(z)$ is differentiable, we can use value theorem
+\begin{align*}
+  \frac{\acti(x) - \acti(y)}{x-y} \le \acti'(z) \; \forall x < z < y
+\end{align*}
+so it is sufficient to bound $\abs{\acti'(z)} \le \rho$ to show $\acti(z)$ is $\rho$-Lipschitz.
+
+We compute $\acti'(z)$
+\begin{align*}
+  \acti'(z) =
+  \begin{cases} 
+    1 & \text{if } z \ge 0 \\
+    0 & \text{if } z < 0
+  \end{cases}
+\end{align*}
+Hence, $\forall z, \abs{\acti'(z)} \le 1$. Therefore, the ReLU activation function $\acti(z) = \max\{z,0\}$ is $1$-Lipschitz.
+
+\textbf{Claim 3.2.}: The sigmoid activation function $\acti(z) = \frac{1}{1+e^{-z}}$ is $\frac{1}{4}$-Lipschitz.
+
+\textit{Proof}:
+
+Similar to preceding claim, $\acti(z)$ is differentiable $\acti'(z) = \frac{e^{-z}}{(1 + e^{-z})^2} = \acti(z)(1-\acti(z))$.
+
+The function $f(z) = \acti(z)(1-\acti(z))$ is quaratic, so it is easy to find its maximum at $\frac{1}{4}$ when $\acti(z) = \frac{1}{2}$.
+
+Hence $\forall z, \abs{\acti'(z)} \le \frac{1}{4}$. Therefore, the sigmoid activation function $\acti(z) = \frac{1}{1+e^{-z}}$ is $\frac{1}{4}$-Lipschitz.
+
+\textbf{Claim 3.3.}: Let $\eps = (\eps_1,\ldots,\eps_m)$ and $f_{\theta}(x) = (f_{\theta}(x_1),\ldots,f_{\theta}(x_m))$. Suppose for any $\eps \in \{ 1\}^m$, $\sup_{\theta} \left( \sum_{t=1}^m \eps_tf_{\theta}(x_t) \right) \ge 0$. Then,
+\begin{align*}
+  \EE_{\eps} \left[ \sup_{\theta}\abs{\sum_{t=1}^m \eps_tf_{\theta}(x_t)} \right] \le 2\EE_{\eps} \left[ \sup_{\theta} \left( \sum_{t=1}^m \eps_tf_{\theta}(x_t) \right) \right] 
+\end{align*}
+
+\textit{Proof}:
+
+We levarge the property of ReLU activation $\acti(z) = \max\{z,0\}$ that that $|z| = \acti(z) + \acti(-z)$. We have
+\begin{align*}
+  &\EE_{\eps} \left[ \sup_{\theta}\abs{\sum_{t=1}^m \eps_tf_{\theta}(x_t)} \right] \\
+  \stackrel{r_1}{=}\,& \EE_{\eps} \left[ \sup_{\theta} \left( \acti\left(\sum_{t=1}^m \eps_tf_{\theta}(x_t)\right) + \acti\left(\sum_{t=1}^m -\eps_tf_{\theta}(x_t) \right) \right)  \right] \\
+  \stackrel{r_2}{\le}\,& \EE_{\eps} \left[ \sup_{\theta} \left( \acti\left(\sum_{t=1}^m \eps_tf_{\theta}(x_t) \right) \right) + \sup_{\theta} \left( \acti\left(\sum_{t=1}^m -\eps_tf_{\theta}(x_t) \right) \right) \right] \\
+  \stackrel{r_3}{\le}\,& \EE_{\eps} \left[ \sup_{\theta} \left( \acti\left(\sum_{t=1}^m \eps_tf_{\theta}(x_t) \right) \right) \right] + \EE_{\eps} \left[\sup_{\theta} \left( \acti\left(\sum_{t=1}^m -\eps_tf_{\theta}(x_t) \right) \right) \right] \\
+  \stackrel{r_4}{\le}\,& \EE_{\eps} \left[ \sup_{\theta} \left( \sum_{t=1}^m \eps_tf_{\theta}(x_t) \right) \right] + \EE_{\eps} \left[\sup_{\theta} \left( \sum_{t=1}^m -\eps_tf_{\theta}(x_t) \right) \right] \\
+  \stackrel{r_5}{\le}\,& \EE_{\eps} \left[ \sup_{\theta} \left( \sum_{t=1}^m \eps_tf_{\theta}(x_t) \right) \right] + \EE_{\eps} \left[\sup_{\theta} \left( \sum_{t=1}^m \eps_tf_{\theta}(x_t) \right) \right] \\
+  \stackrel{r_6}{\le}\,& 2\EE_{\eps} \left[ \sup_{\theta} \left( \sum_{t=1}^m \eps_tf_{\theta}(x_t) \right) \right] 
+\end{align*}
+
+The reasonings
+\begin{itemize}
+\item $r_1$: apply $|z| = \acti(z) + \acti(-z)$.
+\item $r_2$: apply $\sup_{\theta} A(\theta) + B(\theta) \le \sup_{\theta} A(\theta) + \sup_{\theta} B(\theta)$
+\item $r_4$: apply Talagrand's contraction lemma $\Fcal = \{ \acti \circ g : g \in \Gcal \}$ where the ReLU activation $\phi(\cdot)$ is a $1$-Lipschitz, $\radhat_S(\Fcal) \le \radhat_S(\Gcal)$.
+\item $r_5$: under the expectation wrt $\sigma$, $\sigma_t \stackrel{d}{=} -\sigma_t$
+\end{itemize}
+
+\textbf{Claim 3.4.}: The Rademacher complexity of the $l_1$-regularized $n$-layer network with an $\rho$-Lipschitz activation $\acti(\cdot)$ is bounded by
+\begin{align*}
+  \radhat_S(\Fcal_n) \le (2\rho)^{n} \prod_{i=1}^{n}B_{i} X_{\infty}\sqrt{\frac{\ln(2d)}{2m}} 
+\end{align*}
+
+\textit{Proof}: 
+
+\allowdisplaybreaks
+We have
+\begin{align*}
+  &m\radhat_S(\Fcal_n) \\
+  \stackrel{r_1}{=}\,&\EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_n}} \sum_{t=1}^m \eps_{t}h_{W_1,\ldots,W_n}(x_t) \right] \\
+  \stackrel{r_2}{=}\,&\EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_n}} \sum_{t=1}^m \eps_{t}\acti(W_n\acti(W_{n-1}\acti(W_{n-2}\ldots \acti(W_2\acti(W_1x_t)))) \right] \\
+  \stackrel{r_3}{\le}\,&\rho \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_n}} \sum_{t=1}^m \eps_{t}W_n\acti(W_{n-1}\acti(W_{n-2}\ldots \acti(W_2\acti(W_1x_t))) \right] \\
+  \stackrel{r_4}{=}\,&\rho \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-1}}} \sup_{W_n} \sum_{t=1}^m \eps_{t}W_n\acti(W_{n-1}\acti(W_{n-2}\ldots \acti(W_2\acti(W_1x_t))) \right] \\
+  \stackrel{r_5}{=}\,&\rho \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-1}}} \sup_{\norm{w_n^1}_1 = B_n} \sum_{t=1}^m \eps_{t} \langle w_n^1, \acti(W_{n-1}\acti(W_{n-2}\ldots \acti(W_2\acti(W_1x_t))) \rangle \right] \\
+  \stackrel{r_6}{=}\,&\rho \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-1}}} \sup_{\norm{w_n^1}_1 = B_n} \langle w_n^1, \sum_{t=1}^m \eps_{t} \acti(W_{n-1}\acti(W_{n-2}\ldots \acti(W_2\acti(W_1x_t))) \rangle \right] \\
+  \stackrel{r_7}{=}\,&\rho \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-1}}} \sup_{\norm{w_n^1}_1 = B_n}  \norm{w_n^1}_1 \norm{\sum_{t=1}^m \eps_{t} \acti(W_{n-1}\acti(W_{n-2}\ldots \acti(W_2\acti(W_1x_t)))}_{\infty} \right] \\
+  \stackrel{r_8}{=}\,&\rho \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-1}}} B_n \norm{\sum_{t=1}^m \eps_{t} \acti(W_{n-1}\acti(W_{n-2}\ldots \acti(W_2\acti(W_1x_t)))}_{\infty} \right] \\
+  \stackrel{r_9}{=}\,&\rho B_n \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-1}}} \norm{\sum_{t=1}^m \eps_{t} \acti(W_{n-1}\acti(W_{n-2}\ldots \acti(W_2\acti(W_1x_t)))}_{\infty} \right] \\
+  \stackrel{r_{10}}{=}\,&\rho B_n \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-2}}} \sup_{\forall j,\,\norm{w_{n-1}^{j}}_1 = B_{n-1}} \max_{1 \le j \le N_{n-1}} \abs{\sum_{t=1}^m \eps_{t} \acti(\langle w_{n-1}^j,\acti(W_{n-2} \ldots \acti(W_2\acti(W_1x_t))) \rangle )} \right] \\
+  \stackrel{r_{11}}{=}\,&\rho B_n \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-2}}} \sup_{\norm{w_{n-1}^{j^*}}_1 = B_{n-1}} \abs{\sum_{t=1}^m \eps_{t} \acti(\langle w_{n-1}^{j^*},\acti(W_{n-2} \ldots \acti(W_2\acti(W_1x_t))) \rangle )} \right] \\
+  \stackrel{r_{12}}{\le}\,&2 \rho B_n \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-2}}} \sup_{\norm{w_{n-1}^{j^*}}_1 = B_{n-1}} \sum_{t=1}^m \eps_{t} \acti(\langle w_{n-1}^{j^*},\acti(W_{n-2} \ldots \acti(W_2\acti(W_1x_t))) \rangle ) \right] \\
+  \stackrel{r_{13}}{\le}\,&2 \rho^2 B_n \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-2}}} \sup_{\norm{w_{n-1}^{j^*}}_1 = B_{n-1}} \sum_{t=1}^m \eps_{t} \langle w_{n-1}^{j^*},\acti(W_{n-2} \ldots \acti(W_2\acti(W_1x_t))) \rangle  \right] \\
+  \stackrel{r_{14}}{=}\,&2 \rho^2 B_n \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-2}}} \sup_{\norm{w_{n-1}^{j^*}}_1 = B_{n-1}} \langle w_{n-1}^{j^*}, \sum_{t=1}^m \eps_{t} \acti(W_{n-2} \ldots \acti(W_2\acti(W_1x_t))) \rangle  \right] \\
+  \stackrel{r_{15}}{\le}\,&2 \rho^2 B_n \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-2}}} \sup_{\norm{w_{n-1}^{j^*}}_1 = B_{n-1}} \norm{w_{n-1}^{j^*}}_1 \norm{\sum_{t=1}^m \eps_{t} \acti(W_{n-2} \ldots \acti(W_2\acti(W_1x_t)))}_{\infty} \right] \\
+  \stackrel{r_{16}}{\le}\,&2 \rho^2 B_{n-1} \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-2}}} B_{n-1} \norm{\sum_{t=1}^m \eps_{t} \acti(W_{n-2} \ldots \acti(W_2\acti(W_1x_t)))}_{\infty} \right] \\
+  \stackrel{r_{17}}{\le}\,&2 \rho^2 B_{n}B_{n-1} \EE_{\eps_{1:m}} \left[ \sup_{\substack{ W_1,\ldots,W_{n-2}}} \norm{\sum_{t=1}^m \eps_{t} \acti(W_{n-2} \ldots \acti(W_2\acti(W_1x_t)))}_{\infty} \right] \\
+  & \ldots \ldots \\
+  \stackrel{r_{18}}{\le}\,&2^{n-1} \rho^{n} \prod_{i=1}^{n}B_{i} \EE_{\eps_{1:m}} \left[ \norm{\sum_{t=1}^m \eps_{t}x_t}_{\infty} \right] \\
+  \stackrel{r_{19}}{=}\,&2^{n-1} \rho^{n} \prod_{i=1}^{n}B_{i} \EE_{\eps_{1:m}} \left[ \max_{j=1}^d \abs{\sum_{t=1}^m \eps_{t}x_t^j} \right] \\
+  \stackrel{r_{20}}{\le}\,&2^{n-1} \rho^{n} \prod_{i=1}^{n}B_{i} X_{\infty}\sqrt{2m\ln(2d)} \\
+  \stackrel{r_{21}}{=}\,&(2\rho)^{n} \prod_{i=1}^{n}B_{i} X_{\infty}\sqrt{\frac{m\ln(2d)}{2}} 
+\end{align*}
+
+The reasonings
+\begin{itemize}
+\item $r_3$: apply Talagrand's contraction lemma $\Fcal = \{ \acti \circ g : g \in \Gcal \}$ where $\acti$ is a $\rho$-Lipschitz, $\radhat_S(\Fcal) \le \radhat_S(\Gcal)$.
+\item $r_5$: $W_n \in \RR^{1 \times N_{n-1}}$ so it has only one row $w_n^1$
+\item $r_{11}$: select row $j^*$ that maximizes the inside term.  
+\item $r_{12}$ apply claim 3.3. $\EE_{\eps} \left[ \sup_{\theta}\abs{\sum_{t=1}^m \eps_tf_{\theta}(x_t)} \right] \le 2\EE_{\eps} \left[ \sup_{\theta} \left( \sum_{t=1}^m \eps_tf_{\theta}(x_t) \right) \right]$
+\item $r_{18}$ we iteratively do the same procedure as from line $r_9$ to $r_{17}$ for layer $n-2$ to layer $1$
+\item $r_{20}$ we follows the steps in Lecture 14 using Massart's lemma
+\end{itemize}
+
+\textbf{Corollary 3.5}: Since the ReLU activation is $\rho=1$-Lipschitz (shown in claim 3.1), from 3.4., the Rademacher complexity of the $l_1$-regularized $n$-layer network with the ReLU activation function is bounded by
+\begin{align*}
+  \radhat_S(\Fcal_n) \le (2)^{n} \prod_{i=1}^{n}B_{i} X_{\infty}\sqrt{\frac{\ln(2d)}{2m}}
+\end{align*}
+
+\textbf{Corollary 3.6}: Since the sigmoid activation is $\rho=\frac{1}{4}$-Lipschitz (shown in claim 3.2), from 3.4., the Rademacher complexity of the $l_1$-regularized $n$-layer network with the sigmoid activation function is bounded by
+\begin{align*}
+  \radhat_S(\Fcal_n) \le \left(\frac{1}{2}\right)^{n} \prod_{i=1}^{n}B_{i} X_{\infty}\sqrt{\frac{\ln(2d)}{2m}}
+\end{align*}
+
+We observe that when using sigmoid activation function the Rademacher complexity decays with rate $\left(\frac{1}{2}\right)^{n}$ instead increasing with rate $(2)^{n}$ when ReLU activation function.

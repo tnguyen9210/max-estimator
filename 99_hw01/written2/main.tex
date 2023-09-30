@@ -1,0 +1,144 @@
+%\documentclass[11pt]{extarticle}
+\documentclass[11pt]{article}
+\usepackage[top=1.00in, bottom=1.00in, left=1.00in, right=1.00in]{geometry}
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+\usepackage[algoruled, linesnumbered, noline]{algorithm2e}
+% \usepackage[algoruled, noline]{algorithm2e}
+
+% remove restriction to put algorithm into the figure
+\makeatletter
+\newcommand{\removelatexerror}{\let\@latex@error\@gobble}
+\makeatother
+
+% algorithm comments
+\SetKwComment{tcc}{$\triangleright$\ }{}
+
+%- for phragraph indents
+\usepackage{parskip}
+%\setlength{\parindent}{4em}
+%\setlength{\parskip}{1em}
+
+\input{defs-kjun-v4-shared}
+
+\RequirePackage[OT1]{fontenc}
+%\RequirePackage{amsthm,amsmath}
+\RequirePackage[numbers]{natbib}
+
+
+
+%----- (if I want to replace numbers with names and years)
+\newcommand\myshade{85}
+% COLORS: RoyalBlue, Aquamarine, MidnightBlue
+\colorlet{mylinkcolor}{MidnightBlue}
+%\hypersetup{colorlinks,
+%  linkcolor=mylinkcolor,%!\myshade!black,
+%  citecolor=mylinkcolor!\myshade!black,
+%  urlcolor=magenta,
+%  %  linktocpage=true,
+%  linktoc=section,
+%  plainpages=false,
+%}
+
+\setcitestyle{authoryear,round,citesep={;},aysep={,},yysep={;}}
+\ifdefined\nohyperref\else\ifdefined\hypersetup
+%  \definecolor{mydarkblue}{rgb}{0,0.08,0.45}
+\hypersetup{ %
+  pdftitle={},
+  pdfauthor={},
+  pdfsubject={},
+  pdfkeywords={},
+  pdfborder=0 0 0,
+  pdfpagemode=UseNone,
+  colorlinks=true,
+  linkcolor=mylinkcolor!\myshade!black,
+  citecolor=mylinkcolor!\myshade!black,
+  filecolor=mylinkcolor!\myshade!black,
+  urlcolor=mylinkcolor!\myshade!black,
+  pdfview=FitH}
+
+\ifdefined\isaccepted \else
+\hypersetup{pdfauthor={Anonymous Submission}}
+\fi
+\fi\fi
+
+\renewcommand{\cite}{\citep}
+
+%--- some nice alignment of the paragraph and equation
+\usepackage{lmodern}% http://ctan.org/pkg/lm
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+\usepackage{graphicx}
+\usepackage{float}
+% \usepackage[labelfont]{caption}
+\usepackage{subcaption}
+
+\usepackage{anyfontsize}
+\usepackage{newtxtext}  % better version than times
+%\usepackage{newtxmath} % this is a bit ugly 
+\let\vec\undefined % place it before MnSymbol to prevent an error
+\usepackage{MnSymbol} % from Rakhlin
+
+
+\usepackage{enumitem}
+\setlist[itemize]{topsep=.5pt,itemsep=0pt,parsep=2pt}
+\setlist[enumerate]{topsep=.5pt,itemsep=0pt,parsep=2pt}
+
+\usepackage[normalem]{ulem}
+
+%----- math macros  
+\input{10_math_macros.tex}
+
+%----- comments
+\newcommand{\kj}[1]{{\color{RedOrange}[KJ: #1]}}
+\renewcommand{\tn}[1]{{\color{ForestGreen}[TN: #1]}}
+
+
+\title{Homework01}
+%\date{2015-06-11}
+% \author{Tuan}
+
+%%--------------- to adjust spaces
+\makeatletter
+\renewcommand{\paragraph}{%
+  \@startsection{paragraph}{4}%
+  {\z@}{0.75ex \@plus 1ex \@minus .2ex}{-1em}%
+  {\normalfont\normalsize\bfseries}%
+}
+\makeatletter
+
+\begin{document}
+%--- adjust the sapce after equation
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{5pt}
+\setlength{\belowdisplayshortskip}{5pt}
+
+\def\b{{\ensuremath{\mathbf b}}}
+\let\SS\undefined 
+\def\SS{{\mathbb{S}}}
+
+% \maketitle
+% \tableofcontents
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\input{01_problem1.tex}
+\input{03_problem3.tex}
+
+% \appendix
+% \input{appendix_experiments.tex}
+
+% \bibliographystyle{ieee}
+\bibliographystyle{icml2017_kwang_v2}
+% \bibliography{library-shared}
+\end{document}
+
+  
+

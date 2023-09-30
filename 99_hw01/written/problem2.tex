@@ -1,0 +1,187 @@
+
+\newpage
+\subsection*{Problem 2.}
+
+\subsubsection*{Problem 2.a.}
+
+\textbf{Claim 2.a.}: Consider conjugate exponents $p, q$ such that $1 < p \le 2 \le q < \infty$ and $\frac{1}{p} + \frac{1}{q} = 1$. For $a,b \ge 0,\, ab \le \frac{a^p}{p} + \frac{b^q}{q}$. The inequality holds if and only if $a^p = b^q$.
+
+Furthermore, for any $a$, the inequality is tight when $b = (a^p)^{1/q}$.
+
+\textit{Proof}:
+
+We want to prove $f(x) \deq \ln(x)$ is concave in $\RR_{++} \deq (0,\infty)$, by proving $f(x)$ is twice differentiable and $\nabla^2 f(x) \le 0$ in $\RR_{++}$.
+
+We have, $\forall x \in \RR_{++}$, $\nabla f(x) = \frac{1}{x}$ and $\nabla^2 f(x) = -\frac{1}{x^2} \le 0$. Therefore, $f(x)$ concave in $\RR_{++}$.
+
+For the special cases when $a = 0$ or $b = 0$.
+\begin{itemize}
+\item When $a = 0$, $0 \le \frac{b^q}{q}$ is true for $b \ge 0$. The inequality holds if and only if $b = 0 = a$.
+\item When $b = 0$, $0 \le \frac{a^p}{p}$ is true for $a \ge 0$. The inequality holds if and only if $a = 0 = b$.
+\end{itemize}
+
+For other cases $a > 0$ and $b > 0$, we apply Jensen's inequality for concave function $\ln(x)$, for $x=a^p > 0$, $y=b^q > 0$, $\alpha = \frac{1}{p}$, $1-\alpha = \frac{1}{q}$ ($\frac{1}{p} + \frac{1}{q} = 1$ and $1 < p \le 2 \le q < \infty$, so $\alpha \in (0,1)$),
+\begin{align*}
+  &\ln(\frac{1}{p} a^p + \frac{1}{q} b^q ) \\
+  \ge\,&\frac{1}{p}\ln(a^p) + \frac{1}{q}\ln(b^q) \\
+  \ge\,&\ln(a) + \ln(b) \\
+  \ge\,&\ln(ab)
+\end{align*}
+Therefore, $ab \le \frac{a^p}{p}  + \frac{b^q}{q}$. By Jensen's inequality, the equality holds if and only if $a^p = b^q$.
+
+Furthermore, for any $a$, the inequality is tight when $b = (a^p)^{1/q}$.
+
+\subsubsection*{Problem 2.b.}
+
+\textbf{Claim 2.b.}: Consider conjugate exponents $p, q$ such that $1 < p \le 2 \le q < \infty$ and $\frac{1}{p} + \frac{1}{q} = 1$. For $x,y \in \RR^d,\, \langle x,y \rangle \le \frac{\norm{x}_p^p}{p} + \frac{\norm{y}_q^q}{q}$. The inequality holds if and only if $x_i \ge 0$ and $y_i \ge 0$ and $\forall i \in \{1,\ldots,d\}$, $\abs{x_i}^p = \abs{y_i}^q$.
+
+Furthermore, for any $x$, the inequality is tight when $\forall i \in \{1,\ldots,d\}$, $x_i \ge 0$ and $y_i = (x_i^p)^{1/q}$. 
+
+\textit{Proof}:
+
+We have
+\begin{align*}
+  &\langle x,y \rangle \\
+  =\,& \sum_{i=1}^d x_iy_i \\
+  \le\,& \sum_{i=1}^d \abs{x_i}\abs{y_i} \\
+  \le\,& \sum_{i=1}^d \frac{\abs{x_i}^p}{p} + \frac{\abs{y_i}^q}{q} && \mcmt{apply the claim 2.a. for $a=\abs{x_i} > 0$ and $b=\abs{y_i} > 0$}\\
+  =\,& \sum_{i=1}^d \frac{\abs{x_i}^p}{p} + \sum_{i=1}^d \frac{\abs{y_i}^q}{q} \\
+  =\,& \frac{\norm{x}_p^p}{p} + \frac{\abs{y}_q^q}{q}
+\end{align*}
+
+The inequality holds if and only if $x_i \ge 0$ and $y_i \ge 0$ followed by the second inequality, and $\forall i \in \{1,\ldots,d\}$, $\abs{x_i}^p = \abs{y_i}^q$ followed by the claim 2.a.
+
+Furthermore, for any $x$, the inequality is tight when $\forall i \in \{1,\ldots,d\}$, $x_i \ge 0$ and $y_i = (x_i^p)^{1/q}$.
+
+\subsubsection*{Problem 2.c.}
+
+\textbf{Claim 2.c.}: Consider conjugate exponents $p, q$ such that $1 < p \le 2 \le q < \infty$ and $\frac{1}{p} + \frac{1}{q} = 1$. For $x,y \in \RR^d,\, \langle x,y \rangle \le \norm{x}_p \norm{y}_q$. The inequality holds if and only if $x_i \ge 0$ and $y_i \ge 0$ and $\forall i \in \{1,\ldots,d\}$, $\frac{\abs{x_i}^p}{\norm{x}_p^p} = \frac{\abs{y_i}^q}{\norm{y}_q^q}$.
+
+Furthermore, for any $x$, the inequality is tight when $\forall i \in \{1,\ldots,d\}$, $x_i \ge 0$ and $y_i = (\frac{x_i^p}{\norm{x}_p^p})^{1/q}$ (y is normalized such that $\norm{y}_q^q = 1$)
+
+\textit{Proof}:
+
+For the special cases when $x = 0$ or $y = 0$,
+\begin{itemize}
+\item when $x = 0$, the equality is achieved and $y$ can be anything even $y = 0 = x$
+\item when $y = 0$, the equality is achieved and $x$ can be anything even $x = 0 = y$
+\end{itemize}
+
+For the other cases when $x \neq 0$ or $y \neq 0$, we have
+\begin{align*}
+  & \sum_{i=1}^d \frac{x_i}{\norm{x}_p}\frac{y_i}{\norm{y}_q} \\
+  \le\,& \sum_{i=1}^d \frac{\abs{x_i}}{\norm{x}_p}\frac{\abs{y_i}}{\norm{y}_q} \\
+  \le\,& \sum_{i=1}^d \frac{\left( \frac{\abs{x_i}}{\norm{x}_p} \right)^p}{p} + \frac{\left( \frac{\abs{y_i}}{\norm{y}_q} \right)^q}{q} && \mcmt{apply the claim in 2.a. for $a= \frac{\abs{x_i}}{\norm{x}_p}> 0$ and $b=\frac{\abs{y_i}}{\norm{y}_p} > 0$}\\
+  =\,& \sum_{i=1}^d \frac{\abs{x_i}^p}{p\norm{x}_p^p} + \sum_{i=1}^d \frac{\abs{y_i}^q}{q\norm{y}_q^q} \\
+  =\,& \frac{\norm{x}_p^p}{p\norm{x}_p^p} + \frac{\abs{y}_q^q}{q\norm{y}_q^q} \\
+  =\,& \frac{1}{p} + \frac{1}{q} = 1
+\end{align*}
+
+Therefore, $\sum_{i=1}^d x_iy_i \le \norm{x}_p\norm{y}_q$.
+
+The inequality holds if and only if $x_i \ge 0$ and $y_i \ge 0$ followed by the second inequality, and $\forall i \in \{1,\ldots,d\}$, $\frac{\abs{x_i}^p}{\norm{x}_p^p} = \frac{\abs{y_i}^q}{\norm{y}_q^q}$ followed by the claim 2.a.
+
+Furthermore, for any $x$, the inequality is tight when $\forall i \in \{1,\ldots,d\}$, $x_i \ge 0$ and $y_i = (\frac{x_i^p}{\norm{x}_p^p})^{1/q}$ (y is normalized such that $\norm{y}_q^q = 1$).
+
+\subsubsection*{Problem 2.d.}
+
+\textbf{Claim 2.d.}: Consider conjugate exponents $p, q$ such that $1 < p \le 2 \le q < \infty$ and $\frac{1}{p} + \frac{1}{q} = 1$. Define $\psi(w) = \frac{1}{2}\norm{w}_p^2$. Its Fenchel conjugate $\psi^*(\theta) = \max_{w \in \RR^d} \langle w, \theta \rangle - \psi(w)$ is $\psi^*(\theta) = \frac{1}{2}\norm{ \theta }_q^2$
+
+\textit{Proof}:
+
+We have
+\begin{align*}
+  \psi^*(\theta)
+  &= \max_{w \in \RR^d} \langle w, \theta \rangle - \psi(w) \\
+  &\le \max_{w \in \RR^d} \langle w, \theta \rangle - \frac{1}{2}\norm{w}_p^2 \\
+  &= \max_{w \in \RR^d} \norm{w}_p\norm{\theta}_q - \frac{1}{2}\norm{w}_p^2 && \mcmt{apply claim 2.c.}
+\end{align*}
+
+Because $f(w) = \norm{w}_p\norm{ \theta }_q - \frac{1}{2}\norm{w}_p^2$ is a quaratic function, $f(w)$ is optimal at $\frac{1}{2} \norm{\theta}_q^2$ when $\norm{w}_p = \norm{ \theta }_q$.
+
+Therefore $\psi^*(\theta) \le \max_{w \in \RR^d} \norm{w}_p\norm{\theta}_q - \frac{1}{2}\norm{w}_p^2 \le \frac{1}{2} \norm{\theta}_q^2$.
+
+This can always be achieved by letting $w$ be any vector with $\langle w, \theta \rangle = \norm{w}_p \norm{\theta}_q$, scaled so that $\norm{w}_p = \norm{\theta}_q$, which concludes the proof.
+
+\subsubsection*{Problem 2.e.}
+
+\textbf{Claim 2.e.}: Consider a set of examples $S = \{x_t\}_{t=1}^T$ where $ x_t \in \{x \in \RR^d: \norm{x}_q \le R_q\}$. Define $\Fcal = \{m_w(x) \deq \langle w,x \rangle : \norm{w}_p \le B_p\}$. We have
+\begin{align*}
+  \radhat_S(\Fcal) \le B_pR_q\sqrt{\frac{1}{(p-1)T}}
+\end{align*}
+
+\textit{Proof}:
+
+Given iid Rademacher random variables $\sigma_{1:T} \deq \{\sigma_t\}_{t=1}^T$, we run $p$-norm algorithm with $\psi(w) = \frac{1}{2(p-1)} \norm{w}_p^2$, loss function $f_t(w) = \langle w, -\sigma_t x_t \rangle$ over the sample $S$ once. The initial weight is set to be zero, $w_1 = 0$.
+
+The regret of the $p$-norm algorithm is defined as 
+\begin{align*}
+  R_T(u) = \sum_{t=1}^Tf_t(w_t) - \sum_{t=1}^T f_t(u)
+\end{align*}
+
+Taking supremum of regret w.r.t. $w_t$ and then expectation of regret w.r.t. $\sigma_{1:T}$
+\begin{align*}
+  &\displaystyle \EE_{\sigma_{1:T}}\left[ \sup_u R_T(u) \right] \\
+  =\,& \EE_{\sigma_{1:T}} \left[ \sup_{u: \norm{u}_p \le B_p} \left( \sum_{t=1}^Tf_t(w_t) - \sum_{t=1}^T f_t(u) \right) \right]  \\
+  =\,& \EE_{\sigma_{1:T}} \left[ \sup_{u: \norm{u}_p \le B_p} \left( \sum_{t=1}^T\langle w_t, -\sigma_t x_t \rangle - \sum_{t=1}^T \langle u, -\sigma_t x_t \rangle \right) \right]  \\
+  =\,& \EE_{\sigma_{1:T}} \left[ \sup_{u: \norm{u}_p \le B_p} \left( \sum_{t=1}^T \langle u, \sigma_t x_t \rangle - \sum_{t=1}^T\langle w_t, \sigma_t x_t \rangle \right) \right]  \\
+  =\,& \EE_{\sigma_{1:T}} \left[ \sup_{u: \norm{u}_p \le B_p} \left(\sum_{t=1}^T \langle u, -\sigma_t x_t \rangle \right) - \sum_{t=1}^T\langle w_t, -\sigma_t x_t \rangle \right]  && \mcmt{the second term does not depend on $u$} \\
+  =\,& \EE_{\sigma_{1:T}} \left[ \sup_{u: \norm{u}_p \le B_p} \left(\sum_{t=1}^T \langle u, -\sigma_t x_t \rangle \right) \right] - \EE_{\sigma_{1:T}} \left[ \sum_{t=1}^T\langle w_t, -\sigma_t x_t \rangle \right]  \\
+\end{align*}
+
+The first term
+\begin{align*}
+  &\EE_{\sigma_{1:T}} \left[ \sup_{u: \norm{u}_p \le B_p} \left( \sum_{t=1}^T \langle u, \sigma_t x_t \rangle \right) \right] \\
+  =\,&\EE_{\sigma_{1:T}} \left[ \sup_{u: \norm{u}_p \le B_p} \left( \sum_{t=1}^T \sigma_t \langle u,  x_t \rangle \right) \right] \\
+  =\,&T \cdot \radhat_S(\Fcal)
+\end{align*}
+
+The second term
+\begin{align*}
+  &\EE_{\sigma_{1:T}} \left[\left( \sum_{t=1}^T \langle w_t, \sigma_t x_t \rangle \right) \right] \\
+  =\,&\sum_{t=1}^T \left( \EE_{\sigma_t} \left[ \langle w_t, \sigma_t x_t \rangle \right] \right)  \\
+  =\,&\sum_{t=1}^T \left( \EE_{\sigma_t} \left[ \sigma_t \langle w_t, x_t \rangle \right] \right)  \\
+  =\,&\sum_{t=1}^T \left( \langle w_t, x_t \rangle \EE_{\sigma_t} \left[ \sigma_t \right] \right)  \\
+  =\,& 0 && \mcmt{b/c $\EE_{\sigma_t} \left[ \sigma_t \right] = 0$}
+\end{align*}
+
+Combining the two terms we have
+\begin{align*}
+  &\displaystyle \EE_{\sigma_{1:T}}\left[ \sup R_T(u) \right] = T \cdot \radhat_S(\Fcal)
+\end{align*}
+
+We apply the regret bound of the $p$-norm from lecture 20, we have
+\begin{align*}
+  R_T(u) \le \frac{\norm{u}_p^2}{2(p-1)\eta} + \frac{\eta}{2}\sum_{t=1}^T\norm{g_t}_q^2
+\end{align*}
+
+From the problem description, $\norm{u}_p^2 \le B_p^2$ 
+
+Because $f_t(w)$ is linear, it is differentiable on the domain, hence $g_t = \nabla f_t(w) = -\sigma_t x_t$. Hence,
+\begin{align*}
+  &\norm{g_t}_q \\
+  =\,&\norm{-\sigma_t x_t}_q \\
+  =\,&\left(\sum_{i=1}^d\abs{-\sigma_t x_t}^q\right)^{1/q} \\
+  \le\,&\left(\sum_{i=1}^d\abs{-\sigma_t}^q\abs{ x_t}^q\right)^{1/q} \\
+  =\,&\left(\sum_{i=1}^d\abs{ x_t}^q\right)^{1/q} && \mcmt{$\abs{-\sigma_t} = 1$ since $\sigma_t \in \{-1,1\}$}\\
+  =\,&\norm{x}_q \\
+  \le\,& R_q && \mcmt{by the problem description}
+\end{align*}
+
+Therefore, $\norm{g_t}_q^2 \le R_q^2$.
+
+Plugin the regret bound, we have
+\begin{align*}
+  R_T(u)
+  &\le \frac{\norm{u}_p^2}{2(p-1)\eta} + \frac{\eta}{2}\sum_{t=1}^T\norm{g_t}_q^2 \\
+  &\le \frac{B_p^2}{2(p-1)\eta} + \frac{\eta}{2}TR_q^2 \\
+  &\le \max_{\eta} \frac{B_p^2}{2(p-1)\eta} + \frac{\eta}{2}TR_q^2
+\end{align*}
+
+The $h(\eta) = \frac{B_p^2}{2(p-1)\eta} + \frac{\eta}{2}TR_q^2$ is optimal at $2\sqrt{\frac{B_p^2}{2(p-1)} \frac{TR_q^2}{2}} = B_pR_q\sqrt{\frac{T}{p-1}}$ when $\eta = \sqrt{\frac{B_p^2}{(p-1)TR_q^2}} = \frac{B_p}{R_q}\sqrt{\frac{1}{(p-1)T}}$. This is solved by computing the gradient of $h(\eta)$ and set $\nabla h(\eta) = 0$.
+
+Therefore, we get the regret bound $R_T(u) \le B_pR_q\sqrt{\frac{T}{p-1}}$ by setting $\eta = \frac{B_p}{R_q}\sqrt{\frac{1}{(p-1)T}}$
+
+This implies $\EE_{\sigma_{1:T}}\left[ \displaystyle \sup_{u: \norm{u}_p \le B_p} R_T(u) \right] \le B_pR_q\sqrt{\frac{T}{p-1}}$
+
+Finally, $\radhat_S(\Fcal) = \frac{1}{T}\EE_{\sigma_{1:T}}\left[ \displaystyle \sup_{u: \norm{u}_p \le B_p} R_T(u) \right] \le B_pR_q\sqrt{\frac{1}{(p-1)T}} $

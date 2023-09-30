@@ -1,0 +1,90 @@
+
+\section*{Q1}
+\newpage
+a) The loopy BP converges after 1 iteration.
+
+Explanation:
+
+Assuming we initialize messages from variables to factors are uniform, e.g. $m_{A \to h}(A)=<0.5,0.5>$
+
+We then compute the messages from factors to variables. Since the factors and messages are the same and the structure is symmetric, we only need to compute one message, e.g. $m_{h \to C}(C)$, other messages will be the same.
+
+We compute $m_{h \to C}(C)$
+\begin{align*}
+  m_{h \to C}(C) = \sum_{a}h(a,C)m_{A \to h}(a) = <2.5,2.5>
+\end{align*}
+
+After renormalizing this message, we have $m_{h \to C}(C) = <0.5,0.5>$. Other messages from factors to variables will be the same.
+
+We then compute messages from variables to factors. Since the factors and messages are the same and the structure is symmetric, we only need to compute one message, e.g., $m_{A \to h}(A)=<0.5,0.5>$, other messages will be the same.
+
+We compute $m_{A \to h}(A)$
+\begin{align*}
+  m_{A \to h}(A) = m_{f \to A}(A) = <0.5,0.5>
+\end{align*}
+
+This message $m_{A \to h}(A)$ converged. Since the factors and messages are the same and the structure is symmetric, other messages will be converged as well. Hence the loopy BP converged after first iteration.
+
+\pagebreak
+b) We only need to compute one marginal $P(A)$, the other marginals $P(B)$, $P(C)$ will be the same.
+\begin{align*}
+  P(A) = m_{f \to A}(A)*m_{h \to A}(A) = <0.5, 0.5>
+\end{align*}
+
+We only need to compute one marginal $P(A,B)$, the other marginals $P(B,C)$, $P(C,A)$ will be the same.
+\begin{align*}
+  P(A,B) = f(A,B)*m_{A \to f}(A)*m_{B \to f}(B) = <0.1,0.4,0.4,0.1>
+\end{align*}
+
+\begin{tabular}{|c|c|}
+  \hline
+  $A,B$  & $P(A,B)$ \\
+  \hline
+  $a^0 b^0$ & 0.1 \\
+  $a^0 b^1$ & 0.4 \\
+  $a^1 b^0$ & 0.4 \\
+  $a^1 b^1$ & 0.1 \\
+  \hline
+\end{tabular}
+
+c) They are correct 
+
+\pagebreak
+
+\section*{Q2}
+
+a)
+
+\begin{tabular}{|c|c|c|c|}
+  \hline
+    & $S1$ & $S2$ & $S3$ \\
+  \hline
+  $S1$ & 0.9 & 0.1 & 0.0 \\
+  \hline
+  $S2$ & 0.0 & 0.9 & 0.1 \\
+  \hline
+  $S3$ & 0.1 & 0.0 & 0.9 \\
+  \hline
+\end{tabular}
+
+b) To compute the stationary distributions we solve this system of equations
+\begin{align*}
+  & \pi(S1) = 0.9\pi(S1) + 0.1\pi(S3)  \\
+  & \pi(S2) = 0.9\pi(S2) + 0.1\pi(S1) \\
+  & \pi(S3) = 0.9\pi(S3) + 0.1\pi(S2)  \\
+  & \pi(S3) = 0.9\pi(S3) + 0.1\pi(S2)  \\
+  & \pi(S1) + \pi(S2) + \pi(S3) = 1 
+\end{align*}
+The solution of the stationary distributions is $\pi = [1/3,1/3,1/3]$
+
+c) This stationary distribution does not satisfy detailed balance
+\begin{align*}
+  \pi(S1)*T(S1 \to S2) \ne \pi(S2)*T(S2 \to S1)
+\end{align*}
+\begin{align*}
+  &\pi(S1)*T(S1 \to S2) = 1/3*0.1 = 1/30 \\
+  &\pi(S2)*T(S2 \to S1) = 1/3*0.0 = 0.0 \\
+\end{align*}
+
+
+\pagebreak

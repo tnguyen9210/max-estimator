@@ -1,0 +1,30 @@
+
+% Discussion with classmates: I discussed with Kapilan for all the homeworks. 
+
+\subsection*{Problem 1.}
+
+Let $X$ follows the exponential distribution with the rate parameter $\lambda$, then its (uncentered) MGF is
+\begin{align*}
+  \EE\sbr{\exp \del{tX}} = \frac{ \lambda }{\lambda - t}, \; \forall t < \lambda
+\end{align*}
+and its mean is
+\begin{align*}
+  \EE[X] = \frac{1}{\lambda}
+\end{align*}
+
+With the same r.v. $X$, we have
+\begin{align*}
+  &\EE\sbr{\exp \del{t(X - \EE[X])}} \\
+  \stackrel{}{=}\,&\frac{1}{\exp\del{t\EE[X]}}\EE\sbr{\exp \del{tX}} \\
+  \stackrel{}{=}\,&\frac{1}{\exp\del{\frac{t}{\lambda}}}\EE\sbr{\exp \del{tX}} \\
+  \stackrel{}{=}\,&\frac{1}{\exp\del{\frac{t}{\lambda}}}\frac{\lambda}{\lambda-t} \\
+  \stackrel{}{=}\,&\frac{1}{\exp\del{\frac{t}{\lambda}}}\del{1+\frac{t}{\lambda-t}} \\
+  \stackrel{}{\le}\,&\frac{1}{\exp\del{\frac{t}{\lambda}}}\exp\del{\frac{t}{\lambda-t}} && \mcmt{bc $1 + x \le \exp\del{x}$, $\forall x$} \\
+  \stackrel{}{=}\,&\exp\del{\frac{t}{\lambda-t} - \frac{t}{\lambda}}  \\
+  \stackrel{}{=}\,&\exp\del{\frac{t^2}{\lambda(\lambda-t)}} \\
+  \stackrel{}{=}\,&\exp\del{\frac{t^2\frac{2}{\lambda^2}}{2(1-\frac{1}{\lambda}t)}} \\
+  \stackrel{}{\le}\,&\exp\del{\frac{t^2\frac{2}{\lambda^2}}{2(1-\frac{1}{\lambda}\abs{t})}},\; \forall \abs{t} \le \lambda && \mcmt{from the assumption of exponential distribution $t \le \lambda$} \\
+\end{align*}
+
+Therefore, the smallest parameters are $c = \frac{1}{\lambda}$ and $\nu^2 = \frac{2}{\lambda^2}$
+

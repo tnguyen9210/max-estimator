@@ -1,0 +1,541 @@
+%--- synctex
+\synctex=1
+% \pdfoutput=1  % for arxiv submission
+
+%--- math better math font
+\usepackage{amsthm,amsmath,bbm,amsfonts,amssymb}
+\usepackage{dsfont} % require for using \mathds{1}
+\usepackage{mathtools}
+\usepackage{commath}
+\mathtoolsset{showonlyrefs=false}
+\allowdisplaybreaks % This allows breaking multi-line equations
+
+%--- font and spacing
+\usepackage{xspace}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[usenames,dvipsnames]{xcolor} % for color names
+
+%--- links
+\usepackage{hyperref,url}
+\usepackage{cleveref} % must be loaded after amsthm
+
+%--- floating objects
+\usepackage{wrapfig}
+\usepackage[export]{adjustbox}
+\def\imagetop#1{\vtop{\null\hbox{#1}}} % adjusting location of box in table
+\usepackage{graphicx,tabularx}
+\usepackage{multirow,hhline}% http://ctan.org/pkg/multirow
+\usepackage{booktabs}% to use \midrule for drawing a horizontal line in align environment
+\usepackage{pbox} % new line in a table cell -- http://tex.stackexchange.com/questions/2441/how-to-add-a-forced-line-break-inside-a-table-cell
+\usepackage{algorithm,algorithmic}
+
+%- for vertical alignment of includegraphics
+%- http://tex.stackexchange.com/questions/101858/make-two-figures-aligned-at-top
+\usepackage[export]{adjustbox}
+
+%--- etc
+\usepackage{capt-of}
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\usepackage{enumitem}
+
+
+% define your comment color here
+\newcommand{\kwang}[1]{{ \color[rgb]{1,0.279,0.998} #1 }}
+\newcommand{\kw}[1]{{ \color[rgb]{1,0.279,0.998} #1 }}
+% \newcommand{\kj}[1]{{\color{RedOrange}[#1]}}
+\newcommand{\fo}[1]{{\color{Violet}[FO: #1]}}
+\newcommand{\my}[1]{{\color{ForestGreen}[FO: #1]}}
+\newcommand{\gray}[1]{{ \color[rgb]{.6,.6,.6} #1 }}
+\newcommand{\blue}[1]{{\color[rgb]{.3,.5,1}#1}}
+\newcommand{\tblue}[1]{{\color[rgb]{0,0,1}#1}} % 'the' blue
+\newcommand{\grn}[1]{{\color{ForestGreen}#1}}
+\newcommand{\org}[1]{{\color{Orange}#1}}
+\newcommand{\vio}[1]{{\color{Violet}#1}}
+\newcommand{\red}[1]{{\color[rgb]{1,.1,.1}#1}}
+\newcommand{\gr}[1]{{\color[rgb]{.8,.8,.8}#1}}
+
+\newcommand{\clb}[1]{{\color{blue}#1}}
+\newcommand{\clg}[1]{{\color{green}#1}}
+\newcommand{\clr}[1]{{\color{red}#1}}
+\newcommand{\clc}[1]{{\color{cyan}#1}}
+
+%---------- setup theorem environment
+\usepackage{framed}
+\usepackage[most]{tcolorbox}
+\definecolor{kjgray}{rgb}{.7,.7,.7}
+
+\newtheoremstyle{kjstyle}
+{1ex} % Space above
+{\topsep} % Space below
+{\itshape} % Body font
+{} % Indent amount
+{\bfseries} % Theorem head font
+{.} % Punctuation after theorem head
+{.5em} % Space after theorem head
+{} % Theorem head spec (can be left empty, meaning `normal')
+
+\newtheoremstyle{kjstyle2}
+{.0em} % Space above
+{.0em} % Space below
+{\itshape} % Body font
+{} % Indent amount
+{\bfseries} % Theorem head font
+{.} % Punctuation after theorem head
+{.5em} % Space after theorem head
+{} % Theorem head spec (can be left empty, meaning `normal')
+
+
+\newtheoremstyle{kjstylenoitalic}
+{1ex} % Space above
+{\topsep} % Space below
+{} % Body font
+{} % Indent amount
+{\bfseries} % Theorem head font
+{.} % Punctuation after theorem head
+{.5em} % Space after theorem head
+{} % Theorem head spec (can be left empty, meaning `normal')
+
+\tcbset{kjboxstyle/.style={title={},breakable,colback=white,enhanced jigsaw,boxrule=1.3pt,sharp corners,colframe=kjgray,boxsep=0pt,coltitle={black},attach title to upper={},left=.8ex,bottom=.4em}}    
+
+\tcbset{kjboxstylec/.style={title={},breakable,colback=white,enhanced jigsaw,boxrule=1.3pt,sharp corners,colframe=kjgray,boxsep=0pt,coltitle={black},attach title to upper={},left=.8ex,bottom=.4em,top=0.4em,enlarge top by=-0.3em,enlarge bottom by=-0.3em}}    
+%    ,title after break={Lemma \thelemma\ (continued)}}
+%}
+
+\newtheorem{theorem}{Theorem}
+
+\theoremstyle{kjstyle}\newtheorem{thm}{Theorem}
+\AtBeginEnvironment{thm}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{thm}{\end{tcolorbox}}%
+\theoremstyle{kjstyle}\newtheorem{lem}[thm]{Lemma}
+\AtBeginEnvironment{lem}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{lem}{\end{tcolorbox}}%
+%\theoremstyle{kjstyle}\newtheorem{lem}[thm]{Lemma}
+%\AtBeginEnvironment{lem}{\begin{tcolorbox}[kjboxstyle]}%
+%  \AtEndEnvironment{lem}{\end{tcolorbox}}%
+\theoremstyle{kjstyle}\newtheorem{prop}[thm]{Proposition}
+\AtBeginEnvironment{prop}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{prop}{\end{tcolorbox}}%
+\theoremstyle{kjstyle}\newtheorem{cor}[thm]{Corollary}
+\AtBeginEnvironment{cor}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{cor}{\end{tcolorbox}}%
+
+\theoremstyle{kjstyle}\newtheorem{defn}{Definition}
+\AtBeginEnvironment{defn}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{defn}{\end{tcolorbox}}%
+
+\theoremstyle{kjstyle}\newtheorem{ass}{Assumption}
+\AtBeginEnvironment{ass}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{ass}{\end{tcolorbox}}%
+\renewcommand\theass{A\arabic{ass}}
+
+\theoremstyle{kjstyle}\newtheorem{conj}{Conjecture}
+\AtBeginEnvironment{conj}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{conj}{\end{tcolorbox}}%
+
+
+\theoremstyle{kjstyle}\newtheorem{question}{Question}
+\AtBeginEnvironment{question}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{question}{\end{tcolorbox}}%
+% \renewcommand\theass{A\arabic{ass}}
+
+\theoremstyle{kjstylenoitalic}\newtheorem{remark}{Remark}
+\AtBeginEnvironment{remark}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{remark}{\end{tcolorbox}}%
+\theoremstyle{kjstylenoitalic}\newtheorem{openp}{Open Problem}
+\AtBeginEnvironment{openp}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{openp}{\end{tcolorbox}}%
+
+\theoremstyle{kjstylenoitalic}\newtheorem{ex}{Example}
+\AtBeginEnvironment{ex}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{ex}{\end{tcolorbox}}%
+
+
+%--------------- other ways to create box
+\newcommand{\kjunboxold}[1]{\vspace{.5em}\\\fbox{%
+    \begin{minipage}{\linewidth}
+      \centering #1
+    \end{minipage}%
+  }\vspace{.5em}}
+\def\lamp{\ensuremath{\lambda_\perp}}
+\usepackage{mdframed}
+\usepackage{lipsum}
+\definecolor{kjgray}{rgb}{.7,.7,.7}
+\makeatletter
+\newcommand{\kjunbox}[1]{\vspace{.4ex}
+  \begin{mdframed}[linecolor=kjgray,innertopmargin=1.3ex,innerleftmargin=.4em,innerrightmargin=.4em,linewidth=1.3pt]
+    #1
+  \end{mdframed}%
+}
+\makeatletter
+\newcommand{\kjunboxcenter}[1]{\vspace{.4ex}
+  \begin{mdframed}[linecolor=kjgray,innertopmargin=1.3ex,innerleftmargin=.4em,innerrightmargin=.4em,linewidth=1.3pt,userdefinedwidth=.8\linewidth,align=center]
+    %[linecolor=black,innerleftmargin=.4em,innerrightmargin=.4em,userdefinedwidth=.8\linewidth,align=center]
+    #1
+  \end{mdframed}%
+}
+\makeatother
+
+
+%--- to remove the space before paragraph : change 3.25ex to ...
+\makeatletter
+\renewcommand{\paragraph}{%
+  \@startsection{paragraph}{4}%
+  {\z@}{0.50ex \@plus 1ex \@minus .2ex}{-1em}%
+  {\normalfont\normalsize\bfseries}%
+}
+\makeatother
+
+%------- this makes a border that covers other part of the equation....
+%- https://tex.stackexchange.com/questions/72692/highlight-an-equation-within-an-align-environment-with-color-option
+\usepackage[customcolors,shade]{hf-tikz} % after {}, (right, below) and then (left, above) offset... I don't know how it works; done by trial-and-error.
+\newcommand{\hll}[2]{\tikzmarkin[set fill color=yellow!30]{#1}(0.02,-.08)(-0.02,0.3)#2\tikzmarkend{#1}}
+
+%--------------------- better paragraph environment
+\newcommand{\myparagraph}[1]{\paragraph{[#1]}\mbox{}\\}
+
+%---- useful sometimes
+\def\horizontalline{\noindent\rule{\textwidth}{1pt} }
+
+%--- better table
+\usepackage{tabularx} 
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% symbol definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%- hollow
+\def\ddefloop#1{\ifx\ddefloop#1\else\ddef{#1}\expandafter\ddefloop\fi}
+\def\ddef#1{\expandafter\def\csname #1#1\endcsname{\ensuremath{\mathbb{#1}}}}
+\ddefloop ABCDFGHIJKLMNORSTUWXYZ\ddefloop % except for E P V Q
+
+%- c: mathcal
+\def\ddef#1{\expandafter\def\csname c#1\endcsname{\ensuremath{\mathcal{#1}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+
+%- b: mathbf/boldsymbol
+\def\ddef#1{\expandafter\def\csname b#1\endcsname{\ensuremath{{\mathbf{#1}}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop  
+\def\ddef#1{\expandafter\def\csname b#1\endcsname{\ensuremath{{\boldsymbol{#1}}}}}
+\ddefloop abcdeghijklmnopqrtsuvwxyz\ddefloop  % except for bf, which often causes an issue
+
+%- h: hat
+\def\ddef#1{\expandafter\def\csname h#1\endcsname{\ensuremath{\hat{#1}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrsuvwxyz\ddefloop % except for 't'
+\def\ddef#1{\expandafter\def\csname hc#1\endcsname{\ensuremath{\hat{\mathcal{#1}}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+\def\ddef#1{\expandafter\def\csname hb#1\endcsname{\ensuremath{\hat{\mathbf{#1}}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop % 
+\def\ddef#1{\expandafter\def\csname hb#1\endcsname{\ensuremath{\hat{\boldsymbol{#1}}}}}
+\ddefloop abcdefghijklmnopqrstuvwxyz\ddefloop % 
+
+%- t: til
+\def\ddef#1{\expandafter\def\csname t#1\endcsname{\ensuremath{\tilde{#1}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgijklmnpqrtsuvwxyz\ddefloop % except for o and h
+\def\ddef#1{\expandafter\def\csname tc#1\endcsname{\ensuremath{\tilde{\mathcal{#1}}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+\def\ddef#1{\expandafter\def\csname tb#1\endcsname{\ensuremath{\tilde{\mathbf{#1}}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+\def\ddef#1{\expandafter\def\csname tb#1\endcsname{\ensuremath{\tilde{\boldsymbol{#1}}}}}
+\ddefloop abcdefghijklmnopqrstuvwxyz\ddefloop % 
+
+%- bar
+\def\ddef#1{\expandafter\def\csname bar#1\endcsname{\ensuremath{\bar{#1}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrtsuvwxyz\ddefloop
+\def\ddef#1{\expandafter\def\csname barc#1\endcsname{\ensuremath{\bar{\mathcal{#1}}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+\def\ddef#1{\expandafter\def\csname barb#1\endcsname{\ensuremath{\bar{\mathbf{#1}}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+\def\ddef#1{\expandafter\def\csname barb#1\endcsname{\ensuremath{\bar{\boldsymbol{#1}}}}}
+\ddefloop abcdefghijklmnopqrstuvwxyz\ddefloop % 
+
+%- war: wide bar
+\def\ddef#1{\expandafter\def\csname war#1\endcsname{\ensuremath{\overline{#1}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrtsuvwxyz\ddefloop
+\def\ddef#1{\expandafter\def\csname warc#1\endcsname{\ensuremath{\overline{\mathcal{#1}}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+\def\ddef#1{\expandafter\def\csname warb#1\endcsname{\ensuremath{\overline{\mathbf{#1}}}}}
+\ddefloop ABCDEFGHIJKLMNOPQRSTUVWXYZ\ddefloop
+\def\ddef#1{\expandafter\def\csname warb#1\endcsname{\ensuremath{\overline{\boldsymbol{#1}}}}}
+\ddefloop abcdefghijklmnopqrstuvwxyz\ddefloop % 
+
+%- exceptions
+\def\bff{{\boldsymbol f}}
+\def\hbff{{\hat{\boldsymbol f}}}
+\def\hatt{\hat{t}}
+\def\tilo{{\tilde{o}}}
+\def\tilh{{\tilde{h}}}
+\def\bell{{{\boldsymbol\ell}}}
+\def\tell{\ensuremath{\tilde{\ell}}} 
+\def\btell{\ensuremath{\widetilde{\boldsymbol{\ell}}}} 
+\def\hell{{{\hat\ell}}}
+
+\def\rialpha{\ensuremath{{\mathring{\alpha}}}} 
+\def\riz{\ensuremath{\mathring{z}}} 
+\def\ribeta{\ensuremath{\mathring{\beta}}} 
+
+%--- generic shortcuts
+\newcommand{\fr}[2]{ { \frac{#1}{#2} }}
+\newcommand{\tfr}[2]{ { \tfrac{#1}{#2} }}
+\newcommand{\til}[1]{{\ensuremath{\tilde{#1}}}}
+\newcommand{\wtil}[1]{{\ensuremath{\widetilde{#1}}}}
+\newcommand{\wil}[1]{{\ensuremath{\widetilde{#1}}}}
+\newcommand{\wbar}[1]{{\ensuremath{\overline{#1}}}}
+\newcommand{\war}[1]{{\ensuremath{\overline{#1}}}}
+\newcommand{\what}[1]{{\ensuremath{\widehat{#1}}}}
+\newcommand{\wat}[1]{{\ensuremath{\widehat{#1}}}}
+\newcommand\msf[1]{{\mathsf{#1}}}
+\newcommand{\T}{\top}
+\def\wed{\wedge}
+\def\tsty{\textstyle}
+\def\bec{\because}
+\newcommand{\nab}{\nabla}
+\def\cd{\cdot}
+\def\cc{{\circ}}
+\def\la{\langle}
+\def\ra{\rangle}
+\def\dsum{\ensuremath{\displaystyle\sum}} 
+\def\der{\ensuremath{\partial}\xspace}
+\def\llfl{\left\lfloor} 
+\def\rrfl{\right\rfloor}  
+\def\llcl{\left\lceil}  
+\def\rrcl{\right\rceil}  
+\def\lfl{\lfloor} 
+\def\rfl{\rfloor}  
+\def\lcl{\lceil}  
+\def\rcl{\rceil}  
+\def\larrow{\ensuremath{\leftarrow}\xspace} 
+\def\rarrow{\ensuremath{\rightarrow}\xspace} 
+\def\sm{{\ensuremath{\setminus}\xspace} }
+\def\grad{\ensuremath{\mathbf{\nabla}}\xspace}  
+\def\lt{\left}
+\def\rt{\right}
+
+%- checkmarks.
+\definecolor{mygrn}{rgb}{0,.8,0}
+\definecolor{myred}{rgb}{.8,0,0}
+\newcommand{\mycm}{\textcolor{myred}{\cmark}}
+\newcommand{\myxm}{\textcolor{myred}{\xmark}}
+
+%--- greek
+\def\sig{\sigma}
+\def\om{\omega}
+\def\dt{\delta}
+\def\gam{\gamma}
+\def\lam{\lambda}
+\def\kap{\kappa}
+\def\eps{\varepsilon}
+\def\epsilon{\varepsilon}
+\def\th{\theta}
+\def\Lam{\Lambda}
+\def\Dt{\Delta}
+\def\Gam{\Gamma}
+\def\Sig{\Sigma}
+\def\Th{\Theta} 
+\def\Om{\Omega}
+
+\usepackage{pgffor}
+\def\greeksymbols{alpha,beta,gamma,gam,delta,dt,eps,epsilon,zeta,eta,theta,th,iota,kappa,kap,lambda,lam,mu,nu,xi,pi,rho,sigma,sig,tau,phi,chi,psi,omega,om,Gamma,Gam,Delta,Dt,Theta,Th,Lambda,Lam,Pi,Sigma,Sig,Phi,Psi,Omega,Om}
+\def\greeksymbolsnoeta{alpha,beta,gamma,gam,delta,dt,eps,epsilon,zeta,theta,th,iota,kappa,kap,lambda,lam,mu,nu,xi,pi,rho,sigma,sig,tau,phi,chi,psi,omega,om,Gamma,Gam,Delta,Dt,Theta,Th,Lambda,Lam,Pi,Sigma,Sig,Phi,Psi,Omega,Om} % except for eta
+
+%- prefix b: boldsymbol
+\foreach \x in \greeksymbolsnoeta{\expandafter\xdef\csname b\x\endcsname{\noexpand\ensuremath{\noexpand\boldsymbol{\csname \x\endcsname}}}}
+\def\bfeta{{\boldsymbol \eta}}
+
+%- prefix h, hb: hat, hat bold
+\foreach \x in \greeksymbols{\expandafter\xdef\csname h\x\endcsname{\noexpand\ensuremath{\noexpand\hat{\csname \x\endcsname}}}}
+\foreach \x in \greeksymbolsnoeta{\expandafter\xdef\csname hb\x\endcsname{\noexpand\ensuremath{\noexpand\hat{\noexpand\boldsymbol{ \csname \x\endcsname}}}}}
+\def\hbfeta{{\hat{\boldsymbol \eta}}}
+
+%- prefix bar, barb: bar, bar bold
+\foreach \x in \greeksymbols{\expandafter\xdef\csname bar\x\endcsname{\noexpand\ensuremath{\noexpand\bar{\csname \x\endcsname}}}}
+\foreach \x in \greeksymbolsnoeta{%
+\expandafter\xdef\csname barb\x\endcsname{\noexpand\ensuremath{\noexpand\bar{\noexpand\boldsymbol{ \csname \x\endcsname}}}}
+}
+\def\barbfeta{{\bar{\boldsymbol \eta}}}
+
+%- prefix t, tb: tilde, tilde bold
+\foreach \x in \greeksymbols{\expandafter\xdef\csname t\x\endcsname{\noexpand\ensuremath{\noexpand\tilde{\csname \x\endcsname}}}}
+\foreach \x in \greeksymbolsnoeta{\expandafter\xdef\csname tb\x\endcsname{\noexpand\ensuremath{\noexpand\tilde{\noexpand\boldsymbol{ \csname \x\endcsname}}}}}
+\def\tbfeta{{\tilde{\boldsymbol \eta}}}
+
+\def\dmu{{\dot\mu}}
+\def\ddmu{{\ddot\mu}}
+
+%--- space
+\def\RR{{\mathbb{R}}}
+\def\NN{{\mathbb{N}}}
+\def\ZZ{{\mathbb{Z}}}
+\def\SS{{\mathbb{S}}}
+\def\HH{{\mathbb{H}}} 
+
+%--- math operators
+\DeclareMathOperator{\EE}{\mathbb{E}} % ensures the left space is proper (e.g., 2\EE[X])
+\DeclareMathOperator{\VV}{\mathbb{V}}
+\DeclareMathOperator{\PP}{\mathbb{P}}
+\DeclareMathOperator{\QQ}{\mathbb{Q}}
+\DeclareMathOperator{\hEE}{\hat{\mathbb{E}}}
+\DeclareMathOperator{\Var}{{\text{Var}}}
+\DeclareMathOperator{\barln}{\overline\ln}%
+
+\def\clip#1{\wbar{\del{#1}}}
+\DeclareMathOperator{\one}{\mathds{1}\hspace{-.1em}}
+\def\onec#1{\one\cbr{#1}}
+
+% \newcommand{\binom}[2]{{\begin{pmatrix} %- already exists in some package.. (maybe commath)
+%     #1 \\ #2
+% \end{pmatrix}}}              
+\newcommand{\normz}[1]{{\norm[0]{#1}}}
+\DeclarePairedDelimiterX{\inp}[2]{\langle}{\rangle}{#1, #2}
+
+%-- relationship operators
+\newcommand\declareop[3]{%
+  \newcommand#1{%
+    \mskip\muexpr\medmuskip*#2\relax
+    {#3}%
+    \mskip\muexpr\medmuskip*#2\relax
+}}
+\declareop\capprox{1}{{\sr{\const}{\approx}}} % I think 1 means the amount of space.
+\declareop\logapprox{1}{{\sr{\mathsf{log}}{\approx}}} % I think 1 means the amount of space.
+
+\newcommand{\lapp}{\mathop{}\!\lessapprox} 
+\newcommand{\gapp}{\mathop{}\!\gtrapprox}
+\newcommand{\lsim}{\mathop{}\!\lesssim}
+\newcommand{\gsim}{\mathop{}\!\gtrsim}
+
+%---- distribution names
+\def\Bin{\mathsf{Bin}}
+\def\Uniform{{\mathsf{Uniform}}}
+\def\Bernoulli{{\ensuremath{\mathsf{Bernoulli}}}}
+
+%--- string
+\def\kt{{\mathsf{kt}}}
+\def\mle{{\mathsf{mle}}}
+\DeclareMathOperator{\Supp}{{\mathsf{Supp}}}
+\def\Approx{{\mathsf{Approx}} }
+\def\denom{{\mathsf{denom}}}
+\def\eff{{\mathsf{eff}}}
+\def\Seff{{S_{\mathsf{eff}}}}
+\def\opt{{\mathsf{opt}}}
+\def\pes{{\mathsf{pes}}}
+\def\faury{{\mathsf{faury}}}
+\def\nice{{\textsf{nice} } } 
+\def\eff{{\mathsf{eff}}}
+\def\ErrPrb{{\mathsf{ErrPrb}}}
+\def\Seg{{\mathsf{Seg}}}
+\def\COM{\mathsf{COM}}
+\def\const{\mathsf{const}}
+\def\wo{{\ensuremath{\mathsf{wo}}}}
+\def\err{\mathsf{err}} 
+\def\Top{\mathsf{Top}}
+\def\Bot{\mathsf{Bot}}
+\def\Sim{\mathsf{Sim}}
+\def\TV{\mathsf{TV}}
+\def\tmin{{\min}}
+\def\tmax{{\max}}
+\DeclareMathOperator{\rank}{{\mathsf{rank}}}
+\def\kl{{\mathsf{kl}}}
+\def\err{\mathsf{err}} 
+\def\logloss{{\mathsf{logloss}}}
+\def\Ber{{\mathsf{Ber}}}
+\def\erf{{\text{erf}}}
+\def\erfc{\mathsf{erfc}}
+\def\rcF{\ensuremath{\mathring{\cF}}} 
+\def\Cf{{\ensuremath{{\normalfont{\text{Cf}}}}}}
+\def\barCf{{\ensuremath{\wbar{\text{Cf}}}}}
+\newcommand{\Fb}{{\ensuremath{\text{Fb}}}}
+\DeclareMathOperator{\SReg}{{\mathsf{SReg}}}
+\DeclareMathOperator{\MisPrb}{{{\mathsf{MisPrb}}}}
+\def\SR{{\ensuremath{\text{SR}}}\xspace}
+\def\lin{{\ensuremath{\mathsf{lin}}}}
+\newcommand{\FSB}{{\ensuremath{\text{FSB}}}}
+\newcommand{\Cr}{{\ensuremath{\text{Cr}}}}
+\newcommand{\SE}{{\ensuremath{\text{SE}}}}
+\def\IC{{\ensuremath{\normalfont{\text{IC}}}}}
+\newcommand{\Fs}{{\ensuremath{\text{Fs}}}}
+\newcommand{\barFs}{{\ensuremath{\wbar{\text{Fs}}}}}
+\def\Mis{{\text{Mis}}}
+\def\Reward{\ensuremath{\text{Reward}}}
+\def\poly{\operatorname{poly}}
+\def\Misid{\operatorname{Misid}}
+\def\Corral{\ensuremath{\normalfont{\textsc{Corral}}}\xspace}
+\def\AUL{{\ensuremath{\normalfont{\text{AUL}}}}} 
+\def\Rel{{\ensuremath{\normalfont{\text{Rel}}}}} 
+\def\Mis{{\ensuremath{\normalfont{\text{Mis}}}}} 
+\def\Rad{\ensuremath{\text{\normalfont{Rad}}}} 
+\DeclareMathOperator*{\argmax}{arg~max}
+\DeclareMathOperator*{\argmin}{arg~min}
+\DeclareMathOperator{\diag}{{\text{diag}}}
+\DeclareMathOperator{\supp}{{\text{supp}}}
+\DeclareMathOperator{\sign}{{\text{sign}}}
+\DeclareMathOperator{\KL}{{\mathsf{KL}}}
+
+\def\Reg{{\mathsf{Reg}}}
+\def\Regret{\ensuremath{\normalfont{\text{Regret}}}}
+\def\Wealth{\ensuremath{\normalfont{\text{Wealth}}}}
+\def\Active{\ensuremath{\text{Active}}}
+\def\decomp{\ensuremath{\mbox{decomp}}\xspace}
+\def\sym{{\ensuremath{\text{Sym}}\xspace}} 
+\def\suchthat{\ensuremath{\text{ s.t. }}} 
+
+
+%--- min/max
+\newcommand{\hyphen}{{\text{-\hspace{-.06em}}}}
+\newcommand\kmax[1]{\mathop{#1\hyphen\max}}
+\newcommand\kmin[1]{\mathop{#1\hyphen\min}}
+
+%--- colored checkmarks.
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\cm}{\ding{51}}%
+\newcommand{\gyes}{{\color[rgb]{0,.8,0}\cmark}}
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\xm}{\ding{55}}%
+\newcommand{\rno}{{\color[rgb]{.8,0,0}\xmark}}
+\newcommand{\no}{\mbox{\clr{\ding{55}}}}
+\newcommand{\yes}{\mbox{\clg{\ding{51}}}}
+
+%--- add equations above or below.
+\newcommand{\ubrace}[2]{{\underbrace{#1}_{\textstyle #2}}}
+\newcommand{\sr}[2]{ {\stackrel{#1}{#2}} }
+
+%--- parenthesis or symbols with parenthesis
+\newcommand{\evt}[1]{\envert{#1}}
+\newcommand*{\medcup}{\mathbin{\scalebox{1.5}{\ensuremath{\cup}}}}%
+\newcommand*{\medcap}{\mathbin{\scalebox{1.5}{\ensuremath{\cap}}}}%
+\def\bigmid{\,\middle|\,\xspace}
+\newcommand{\bmid}{\;\middle|\;}
+%- super large parenthesis
+\makeatletter
+\newcommand{\vast}{\bBigg@{3}}
+\newcommand{\Vast}{\bBigg@{4}}
+\makeatother
+
+%--- etc.
+\def\rhoX{{\rho_{\mathcal{X}}}}
+\def\lammin{{\lambda_{\min}}}
+\def\elllog{{\ell^{\mathsf{log}}}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

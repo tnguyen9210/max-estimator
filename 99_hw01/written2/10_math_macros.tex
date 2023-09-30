@@ -1,0 +1,146 @@
+
+% new operators and commands
+
+\newcommand{\Qinv}{Q^{-1}}
+
+\newcommand{\xbmax}{X_{\textrm{max}}}
+\newcommand{\intinfty}{\int_{-\infty}^{\infty}}
+\newcommand{\idt}[1]{\mathbbm{1}\left \{#1 \right \}}
+
+
+
+% operator
+\newcommand{\var}{\textrm{Var}}
+
+% define your math comment color here
+\newcommand{\tncmt}[1]{\text{{\color[rgb]{.3,.5,1}(#1)}}}
+\newcommand{\mcmt}[1]{\text{(#1)}}
+
+\newcommand{\teqref}[1]{(eq \ref{#1})}
+\newcommand{\tref}[1]{eq \ref{#1}}
+
+% operators
+%% ML operators
+% \DeclareMathOperator{\MSE}{MSE}
+% \DeclareMathOperator{\KL}{KL}
+
+%% argmax and argmin
+% \DeclareMathOperator*{\argmax}{argmax} %starred allows subscripts
+% \DeclareMathOperator*{\argmin}{argmin}
+
+%% math operators
+% \newcommand{\abs}[1]{\lvert#1\rvert}
+% \newcommand{\set}[1]{\left\lbrace #1\right\rbrace}
+% \newcommand{\norm}[1]{\lVert#1\rVert}
+
+\newcommand{\pluseq}{\mathrel{+}=}
+\newcommand{\asteq}{\mathrel{*}=}
+% \newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+
+
+% math notations
+%% calligraphical letters
+\newcommand{\Acal}{\mathcal{A}}
+\newcommand{\Bcal}{\mathcal{B}}
+\newcommand{\Scal}{\mathcal{S}}
+% \newcommand{\CC}{\mathbb{C}}
+% \newcommand{\EE}{\mathbb{E}}
+
+% \newcommand{\NN}{\mathcal{N}}
+% \newcommand{\LL}{\mathcal{L}}
+% \newcommand{\DD}{\mathcal{D}}
+% \newcommand{\GG}{\mathcal{G}}
+% \newcommand{\HH}{\mathcal{H}}
+% \newcommand{\FF}{\mathcal{F}}
+
+% \let\SS\undefined
+% \newcommand{\QQ}{\mathcal{Q}}
+% \newcommand{\SS}{\mathcal{S}}
+% \newcommand{\TT}{\mathcal{T}}
+
+% % \newcommand{\XX}{\mathcal{X}}
+% \newcommand{\YY}{\mathcal{Y}}
+% \newcommand{\ZZ}{\mathcal{Z}}
+% \newcommand{\WW}{\mathcal{W}}
+
+% %% matrices: straight bold uppercase letters
+\newcommand{\mat}[1]{\mathbf{#1}}%
+% \newcommand{\mat}[1]{\bm{\mathrm{#1}}}%
+
+% \newcommand{\eye}{\mat{I}}
+% \newcommand{\mA}{\ensuremath{\mat{A}}}
+% \newcommand{\mB}{\ensuremath{\mat{B}}}
+% \newcommand{\mC}{\ensuremath{\mat{C}}}
+% % \newcommand{\mD}{\ensuremath{\mat{D}}}
+% % \newcommand{\mE}{\ensuremath{\mat{E}}}
+% % \newcommand{\mF}{\ensuremath{\mat{F}}}
+% % \newcommand{\mG}{\ensuremath{\mat{G}}}
+% % \newcommand{\mH}{\ensuremath{\mat{H}}}
+% \newcommand{\mI}{\ensuremath{\mat{I}}}
+% \newcommand{\mJ}{\ensuremath{\mat{J}}}
+% \newcommand{\mK}{\ensuremath{\mat{K}}}
+% % \newcommand{\mL}{\ensuremath{\mat{L}}}
+% \newcommand{\mM}{\ensuremath{\mat{M}}}
+% \newcommand{\mN}{\ensuremath{\mat{N}}}
+% \newcommand{\mO}{\ensuremath{\mat{O}}}
+% \newcommand{\mP}{\ensuremath{\mat{P}}}
+% \newcommand{\mQ}{\ensuremath{\mat{Q}}}
+% \newcommand{\mR}{\ensuremath{\mat{R}}}
+% \newcommand{\mS}{\ensuremath{\mat{S}}}
+% \newcommand{\mT}{\ensuremath{\mat{T}}}
+% \newcommand{\mU}{\ensuremath{\mat{U}}}
+% \newcommand{\mV}{\ensuremath{\mat{V}}}
+% \newcommand{\mW}{\ensuremath{\mat{W}}}
+% \newcommand{\mX}{\ensuremath{\mat{X}}}
+% % \newcommand{\mY}{\ensuremath{\mat{Y}}}
+% % \newcommand{\mZ}{\ensuremath{\mat{Z}}}
+% \newcommand{\mLambda}{\ensuremath{\mat{\Lambda}}}
+% \newcommand{\mzero}{\ensuremath{\mat{0}}}
+
+% %% vectors: straight bold lowercase letters
+% \renewcommand{\vec}[1]{\mathbf{#1}}
+% % \renewcommand{\vec}[1]{\bm{\mathrm{#1}}}
+% \newcommand{\ones}{\vec{e}}
+% \newcommand{\va}{\ensuremath{\vec{a}}}
+% \newcommand{\vb}{\ensuremath{\vec{b}}}
+% \newcommand{\vc}{\ensuremath{\vec{c}}}
+% \newcommand{\vd}{\ensuremath{\vec{d}}}
+% \newcommand{\ve}{\ensuremath{\vec{e}}}
+% \newcommand{\vf}{\ensuremath{\vec{f}}}
+% \newcommand{\vg}{\ensuremath{\vec{g}}}
+% \newcommand{\vh}{\ensuremath{\vec{h}}}
+% \newcommand{\vi}{\ensuremath{\vec{i}}}
+% \newcommand{\vj}{\ensuremath{\vec{j}}}
+% \newcommand{\vk}{\ensuremath{\vec{k}}}
+% \newcommand{\vl}{\ensuremath{\vec{l}}}
+% \newcommand{\vm}{\ensuremath{\vec{l}}}
+% \newcommand{\vn}{\ensuremath{\vec{n}}}
+% \newcommand{\vo}{\ensuremath{\vec{o}}}
+% \newcommand{\vp}{\ensuremath{\vec{p}}}
+% \newcommand{\vq}{\ensuremath{\vec{q}}}
+% \newcommand{\vr}{\ensuremath{\vec{r}}}
+% \newcommand{\vs}{\ensuremath{\vec{s}}}
+% \newcommand{\vt}{\ensuremath{\vec{t}}}
+% \newcommand{\vu}{\ensuremath{\vec{u}}}
+% \newcommand{\vv}{\ensuremath{\vec{v}}}
+% \newcommand{\vw}{\ensuremath{\vec{w}}}
+% \newcommand{\vx}{\ensuremath{\vec{x}}}
+% \newcommand{\vy}{\ensuremath{\vec{y}}}
+% \newcommand{\vz}{\ensuremath{\vec{z}}}
+% \newcommand{\vpi}{\ensuremath{\vecalt{\pi}}} 
+
+% % space
+\newcommand{\hquad}{\hspace{2em}}
+
+
+% \newtheorem*{theorem*}{Theorem}
+
+\theoremstyle{kjstyle}\newtheorem*{thm*}{Theorem}
+\AtBeginEnvironment{thm*}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{thm*}{\end{tcolorbox}}%
+\theoremstyle{kjstyle}\newtheorem*{lem*}{Lemma}
+\AtBeginEnvironment{lem*}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{lem*}{\end{tcolorbox}}%
+\theoremstyle{kjstyle}\newtheorem*{cor*}{Corollary}
+\AtBeginEnvironment{cor*}{\begin{tcolorbox}[kjboxstyle]}%
+  \AtEndEnvironment{cor*}{\end{tcolorbox}}%
