@@ -43,7 +43,7 @@ We set $\eps = \tau^2$, then
 
 Use wolfram alpha to find the $\Qinv$, we have
 \begin{align*}
-  \Qinv = \frac{1}{8r^4 - 3r^2 -1} \begin{pmatrix}
+  \Qinv = \frac{1}{\tau^2(8\tau^4 - 3\tau^2 -1)} \begin{pmatrix}
     \tau^2(\tau^2 - 2) & r(3\tau^3 - 1) \\
     r(3\tau^3 - 1) & \tau^2 -  1
   \end{pmatrix}
@@ -51,9 +51,30 @@ Use wolfram alpha to find the $\Qinv$, we have
 
 \subsubsection*{Problem 3.b.}
 
-From $\Qinv$, we have $(\Qinv)_{11} = \frac{\tau^2(\tau^2 -2)}{8r^4 - 3r^2 -1} $
+From $\Qinv$, we have $(\Qinv)_{11} = \frac{\tau^4 - 2\tau^2}{\tau^2(8\tau^4 - 3\tau^2 -1)} $
 
-We have
+Compute $R_1$, $R_2$, and $R_3$
 \begin{align*}
-  R_1 = 
+  R_1 &= \abs{e_1^T\Qinv x^{(1)}} \\
+      &= \abs{\frac{-2\tau^4 - \tau^2}{\tau^2(8\tau^4 - 3\tau^2 -1)}} \\
+      &= \abs{\frac{2\tau^4 + \tau^2}{\tau^2(8\tau^4 - 3\tau^2 -1)}}
 \end{align*}
+
+\begin{align*}
+  R_2 &= \abs{e_1^T\Qinv x^{(2)}} \\
+      &= \abs{\frac{4\tau^4 - 3\tau^2}{\tau^2(8\tau^4 - 3\tau^2 -1)}} 
+\end{align*}
+
+\begin{align*}
+  R_3 &= \abs{e_1^T\Qinv x^{(3)}} \\
+      &= \abs{\frac{3\tau^3 - \tau}{\tau^2(8\tau^4 - 3\tau^2 -1)}} 
+\end{align*}
+
+Because $\tau \le 1$, the term order of $\tau$ will dominate other term, hence orderwise, $R_3$ is the largest range. And orderwise, $R_3$ can be much larger than $(\Qinv)_{11}$. So $i^* = 3$
+
+Compute the $\frac{R_3}{(\Qinv)_{11}}$
+\begin{align*}
+  \frac{R_3}{(\Qinv)_{11}} & = \abs{\frac{3\tau^3 - \tau}{\tau^4 - 2\tau^2}} = O\del{\frac{1}{\tau}}
+\end{align*}
+
+So the ratio $\frac{R_3}{(\Qinv)_{11}}$ scales with $O\del{\frac{1}{\tau}}$ with $\tau < 1$. The case shows that the range $R_3$ can be much larger $(\Qinv)_{11}$, and hence the Catoni estimator step of PopArt is necessary to perform well in the nonasymptotic regime.
