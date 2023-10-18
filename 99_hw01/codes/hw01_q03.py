@@ -10,7 +10,7 @@ sns.set_style("ticks")
 sns.set_palette("tab10")
 colors = sns.color_palette("tab10")
 
-np.random.seed(123)
+# np.random.seed(5)
 
 # params
 num_trials = 10000
@@ -110,7 +110,7 @@ def catoni_estimator(samples_theta, catoni_var, catoni_delta, catoni_nsearchs):
     assert upper_R < 0, "stop upper_R = {upper_R} >= 0"
     assert lower_R >= 0, "stop lower_R = {lower_R} < 0"
 
-    acc_thres = 0.0001
+    acc_thres = 0.00001
     while (upper_theta - lower_theta) > acc_thres:
         # print(f"upper_theta = {upper_theta:0.4f}")
         # print(f"lower_theta = {lower_theta:0.4f}")
@@ -132,12 +132,14 @@ trials_cm_theta = []
 trials_cp_theta = []
 for i_trial in range(num_trials):
     samples_x_idxes = np.random.choice(3, size=(num_samples,), p=[1-2*eps, eps, eps])
-    samples_x_idxes = np.random.choice(3, size=(num_samples,), p=[0.5, 0.3, 0.2])
+    # samples_x_idxes = np.random.choice(3, size=(num_samples,), p=[0.5, 0.3, 0.2])
     samples_x = np.zeros((num_samples, num_dims))
     samples_x[samples_x_idxes == 0,:] = x0
     samples_x[samples_x_idxes == 1,:] = x1
     samples_x[samples_x_idxes == 2,:] = x2
 
+    # print(np.cov(samples_x, ddof=1))
+    # stop
     # print(samples_x_idxes[:10])
     # print(samples_x[:10])
     
@@ -160,34 +162,39 @@ for i_trial in range(num_trials):
 
     # catoni estimator
     catoni_var = ((1 + tau)**2 + 1)*Q_inv[i_coord, i_coord]
+    # catoni_var = Q_inv[i_coord, i_coord]
     cp_theta_i = catoni_estimator(
         samples_theta[:, i_coord], catoni_var, catoni_delta, catoni_nsearchs)
     trials_cp_theta.append(cp_theta_i)
     
+print(len(trials_cm_theta))
 
 fig, axes = plt.subplots(
         nrows=2, ncols=1, sharex=False, sharey=False, figsize=(8,8))
 axes = axes.ravel()
 
 # plot histogram
-num_bins = 50
-cm_theta_hist, cm_theta_bins = \
-    np.histogram(trials_cm_theta, bins=num_bins, density=True)
-cm_theta_range = (cm_theta_bins[:-1] + cm_theta_bins[1:]) / 2  # centerize
+num_bins = 100
+# cm_theta_hist, cm_theta_bins = \
+#     np.histogram(trials_cm_theta, bins=num_bins, density=True)
+# cm_theta_range = (cm_theta_bins[:-1] + cm_theta_bins[1:]) / 2  # centerize
 
-cp_theta_hist, cp_theta_bins = \
-    np.histogram(trials_cp_theta, bins=num_bins, density=True)
-cp_theta_range = (cp_theta_bins[:-1] + cp_theta_bins[1:]) / 2  # centerize
+# cp_theta_hist, cp_theta_bins = \
+#     np.histogram(trials_cp_theta, bins=num_bins, density=True)
+# cp_theta_range = (cp_theta_bins[:-1] + cp_theta_bins[1:]) / 2  # centerize
 
-axes[0].bar(cm_theta_range, height=cm_theta_hist,
-            width=(cm_theta_bins[1]-cm_theta_bins[0]),
-            color='None', edgecolor=colors[0], linestyle='-', label="catoni minus")
-axes[0].bar(cm_theta_range, height=cp_theta_hist,
-            width=(cp_theta_bins[1]-cp_theta_bins[0]),
-            color='None', edgecolor=colors[1], linestyle='--', label="catoni plus")
+# axes[0].bar(cm_theta_range, height=cm_theta_hist,
+#             width=(cm_theta_bins[1]-cm_theta_bins[0]),
+#             color='None', edgecolor=colors[0], linestyle='-', label="catoni minus")
+# axes[0].bar(cm_theta_range, height=cp_theta_hist,
+#             width=(cp_theta_bins[1]-cp_theta_bins[0]),
+#             color='None', edgecolor=colors[1], linestyle='-', label="catoni plus")
+axes[0].hist(trials_cm_theta, bins=num_bins, color=colors[0], alpha=0.5, density=False, label="catoni minus")
+axes[0].hist(trials_cp_theta, bins=num_bins, color=colors[1], alpha=0.5, density=False, label="catoni plus")
 # ax.plot(cm_theta_range, cm_theta_hist, 'g--', label="estimated density")
 # ax.plot(x, px, 'r--', label="true density")
-axes[0].legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
+# axes[0].legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
+axes[0].legend()
 
 # plot cdf
 cm_ecdf_fn = stats.ecdf(trials_cm_theta)
@@ -195,7 +202,8 @@ cp_ecdf_fn = stats.ecdf(trials_cp_theta)
 
 cm_ecdf_fn.cdf.plot(axes[1], color=colors[0], label="catoni minus")
 cp_ecdf_fn.cdf.plot(axes[1], color=colors[1], label="catoni plus")
-axes[1].legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
+# axes[1].legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
+# axes[1].legend()
 
 plt.show()
 
@@ -208,7 +216,9 @@ plt.show()
 #          histtype='step', alpha=0.55, color='orange')
 # plt.show()
 
-# sns.displot(data=trials_cm_theta, kind="ecdf")
-# sns.displot(data=trials_cp_theta, kind="ecdf")
-# ax.ecdf(trials_cm_theta, label="new")
+# # sns.displot(data=trials_cm_theta, label="minus", kind="ecdf")
+# # sns.displot(data=trials_cp_theta, label="plus", kind="ecdf")
+# sns.ecdfplot(trials_cm_theta, label="minus")
+# sns.ecdfplot(trials_cp_theta, label="plus")
+# # ax.ecdf(trials_cm_theta, label="new")
 # plt.show()
