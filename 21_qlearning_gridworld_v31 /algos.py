@@ -80,6 +80,48 @@ def eps_greedy_policy(action_muhats, action_nvisits, eps):
     return eps_greedy_action
 
 
+def greedy_policy2(action_muhats, action_sigmahats, action_nvisits, action_ess):
+    num_actions = len(action_muhats)
+    total_nvisits = np.sum(action_nvisits)
+    if total_nvisits == 0:
+        action_max_muhat = np.max(action_muhats)
+        action_max_idxes = np.where(action_muhats == action_max_muhat)[0]
+        # action = np.argmax(action_means)
+        action = np.random.choice(action_max_idxes)
+        return action
+    
+    total_ess = np.sum(action_ess)
+    action_maxlcb_idx = None
+    action_maxlcb = -np.inf
+    for i in range(num_actions):
+        num = 2*action_sigmahats[i]**2/(action_ess[i]+1)
+        log = np.log(2*num_actions*total_ess**2/0.05)
+        action_i_bonus = np.sqrt(num*log)
+        action_i_lcb = action_muhats[i] - action_i_bonus
+        # print(i)
+        # print(action_i_lcb)
+        if action_i_lcb > action_maxlcb:
+            action_maxlcb_idx = i
+            action_maxlcb = action_i_lcb
+            
+    
+    return action_maxlcb_idx
+
+
+def eps_greedy_policy2(action_muhats, action_sigmahats, action_nvisits, action_ess, eps): 
+    num_actions = len(action_muhats)
+    action_muhats = copy.deepcopy(action_muhats)
+    action_muhats[action_nvisits == 0] = inf_mu
+    greedy_action = greedy_policy2(action_muhats, action_sigmahats, action_nvisits, action_ess)
+    
+    action_probs = eps*np.ones(num_actions)/num_actions
+    action_probs[greedy_action] += 1 - eps
+    eps_greedy_action = np.random.choice(num_actions, 1, p=action_probs)[0]
+    
+    return eps_greedy_action
+
+
+
 
 def q_learning(env, num_actions, num_steps_train,
                gamma, lr_sched_fn, eps_sched_fn, tdqm_disable, args=None):
@@ -161,7 +203,7 @@ def weightedms_q_learning(
     Q2_table = defaultdict(lambda: inf_Q*np.ones(num_actions))
     Q_nvisits = defaultdict(lambda: np.zeros(num_actions))
     
-    Q_sigmahats = defaultdict(lambda: np.ones(num_actions)*1e10)
+    Q_sigmahats = defaultdict(lambda: np.ones(num_actions)*0)
     Q_ess = defaultdict(lambda: 0*np.ones(num_actions))
     Q_ess_weights = defaultdict(lambda: 0*np.ones(num_actions))
     Q2_ess_weights = defaultdict(lambda: 0*np.ones(num_actions))
@@ -176,8 +218,9 @@ def weightedms_q_learning(
         nvisits = np.sum(Q_nvisits[cur_state]) + 1
         # eps = 1.0/np.sqrt(nvisits)
         eps = eps_sched_fn(nvisits)
-        action = eps_greedy_policy(
-            Q_table[cur_state], Q_nvisits[cur_state], eps)
+        action = eps_greedy_policy2(
+            Q_table[cur_state], Q_sigmahats[cur_state],
+            Q_nvisits[cur_state], Q_ess[cur_state], eps)
 
         new_state, reward, terminated, truncated, info = env.step(action)
         new_state = f"{new_state}"
@@ -217,7 +260,7 @@ def weightedms_q_learning(
             Q_ess[cur_state][action] = \
                 1./Q2_ess_weights[cur_state][action]
             
-        if Q_nvisits[cur_state][action] > 1:
+        if Q_nvisits[cur_state][action] >= 1:
             diff = Q2_table[cur_state][action] - Q_table[cur_state][action]**2
             # diff = action_sigma**2
             if diff < 0:
@@ -484,7 +527,7 @@ def haver3_q_learning(env, num_actions, num_steps_train,
     Q2_table = defaultdict(lambda: inf_Q*np.ones(num_actions))
     Q_nvisits = defaultdict(lambda: np.zeros(num_actions))
 
-    Q_sigmahats = defaultdict(lambda: np.ones(num_actions)*1e10)
+    Q_sigmahats = defaultdict(lambda: np.ones(num_actions)*0)
     Q_ess = defaultdict(lambda: 0*np.ones(num_actions))
     Q_ess_weights = defaultdict(lambda: 0*np.ones(num_actions))
     Q2_ess_weights = defaultdict(lambda: 0*np.ones(num_actions))
@@ -500,8 +543,9 @@ def haver3_q_learning(env, num_actions, num_steps_train,
         nvisits = np.sum(Q_nvisits[cur_state]) + 1
         # eps = 1.0/np.sqrt(nvisits)
         eps = eps_sched_fn(nvisits)
-        action = eps_greedy_policy(
-            Q_table[cur_state], Q_nvisits[cur_state], eps)
+        action = eps_greedy_policy2(
+            Q_table[cur_state], Q_sigmahats[cur_state],
+            Q_nvisits[cur_state], Q_ess[cur_state], eps)
 
         new_state, reward, terminated, truncated, info = env.step(action)
         new_state = f"{new_state}"
@@ -544,7 +588,7 @@ def haver3_q_learning(env, num_actions, num_steps_train,
             Q_ess[cur_state][action] = \
                 1./Q2_ess_weights[cur_state][action]
             
-        if Q_nvisits[cur_state][action] > 1:
+        if Q_nvisits[cur_state][action] >= 1:
             diff = Q2_table[cur_state][action] - Q_table[cur_state][action]**2
             if diff < 0:
                 diff = 0
